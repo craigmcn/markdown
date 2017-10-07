@@ -104,8 +104,6 @@
       if (area.addEventListener) {
         area.addEventListener('input', function() {
           span.textContent = area.value;
-          hljs.initHighlighting.called = false;
-          hljs.initHighlighting();
         }, false);
         span.textContent = area.value;
       } else if (area.attachEvent) {
