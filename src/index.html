@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags
+    -->
+    <title>Markdown Parser</title>
+
+    <!--
+      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+      <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+      <link rel="manifest" href="/manifest.json" />
+      <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#1e90ff" />
+      <meta name="theme-color" content="#1e90ff" />
+    -->
+
+    <!--
+      HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body id="top">
+    <header class="header"><h1>Markdown Parser</h1></header>
+
+    <main class="grid">
+      <section id="editor">
+        <header class="subheader"><h2>Markdown</h2></header>
+        <div contenteditable></div>
+      </section>
+      <section id="formatted">
+        <header class="subheader"><h2>HTML</h2></header>
+        <div id="content"></div>
+      </section>
+      <section id="html">
+        <header class="subheader container container--flex">
+          <h2>Source</h2>
+          <button class="button button--small" data-toggle="source">
+            toggle
+          </button>
+        </header>
+        <pre id="source" style="display: block"></pre>
+      </section>
+    </main>
+
+    <script src="./scripts/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,218 @@
+/**
+ * Fonts
+ */
+@import url('https://fonts.googleapis.com/css?family=Raleway:400, 700|Roboto|Roboto+Mono');
+$raleway-stack: 'Raleway', 'Verdana', 'Lucida Grande', 'Gill Sans', 'Arial',
+  'Helvetica', sans-serif;
+$roboto-stack: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
+$mono-stack: 'Roboto Mono', monospace !default;
+
+/**
+ * Colours
+ */
+$black: #333;
+$grey: #ccc;
+$darkgrey: #777;
+$pink: #e83e8c;
+$silver: #f8f8f8;
+
+/* apply a natural box layout model to all elements, but allowing components to change */
+/* https://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $roboto-stack;
+  height: 100vh;
+  color: $black;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $raleway-stack;
+}
+
+/* button reset */
+button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.header {
+  background-color: $silver;
+  border-bottom: 1px solid darken($silver, 10%);
+  color: $darkgrey;
+  height: 54px; /* text 21px, padding 16px * 2, border 1px */
+  padding: 1rem;
+
+  & h1 {
+    font-size: 1.1rem;
+    font-weight: normal;
+  }
+}
+
+.subheader {
+  padding: 1rem;
+  border-bottom: 1px solid $silver;
+}
+
+.grid {
+  display: grid;
+  display: -ms-grid;
+  grid-template-areas: 'editor formatted' 'editor html';
+  grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr);
+  height: calc(100vh - 54px); /* 100% - nav height */
+}
+
+.container {
+  &--flex {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.button {
+  border: 1px solid lighten($black, 20%);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+
+  &:hover,
+  &:active {
+    background-color: $silver;
+    border-bottom-width: 2px;
+    border-color: $black;
+    padding-bottom: calc(0.5rem - 1px);
+  }
+
+  &--small {
+    font-size: 0.8em;
+    border-radius: 3px;
+    padding: 3px 6px;
+
+    &:hover,
+    &:active {
+      padding-bottom: 2px;
+    }
+  }
+}
+
+#editor {
+  border-right: 1px solid darken($silver, 10%);
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  grid-area: editor;
+
+  & > [contenteditable] {
+    font-family: $mono-stack;
+    height: 100%;
+    max-height: 100%;
+    padding: 1rem;
+  }
+}
+
+#formatted {
+  border-bottom: 1px solid darken($silver, 10%);
+  grid-area: formatted;
+}
+
+#html {
+  grid-area: html;
+}
+
+#content,
+#source {
+  overflow: auto;
+  padding: 1rem;
+}
+
+#content {
+  /* set default tag styles */
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5,
+  & h6,
+  & hr,
+  & p,
+  & table,
+  & ul,
+  & ol,
+  & pre {
+    margin-bottom: 0.75em;
+  }
+
+  & h2 {
+    border: none;
+    padding: 0;
+  }
+
+  & table {
+    border-bottom: 1px solid darken($silver, 20%);
+    border-spacing: 0;
+    width: 100%;
+
+    & th {
+      border-bottom: 1px solid darken($silver, 20%);
+    }
+    & th,
+    & td {
+      padding: 0.5em 4px;
+    }
+
+    & tbody tr:nth-child(even) {
+      background-color: $silver;
+    }
+  }
+  & ul,
+  & ol {
+    margin-left: 1em;
+  }
+
+  & code {
+    color: $pink;
+    display: inline-block;
+    font-family: $mono-stack;
+    font-size: 1rem;
+    padding: 0 2px;
+    word-break: break-word;
+  }
+
+  & pre {
+    background-color: $silver;
+    padding: 0.5rem;
+    width: 100%;
+
+    & code {
+      color: $black;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+#source {
+  font-family: $mono-stack;
+  font-size: 0.875rem;
+}

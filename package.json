@@ -1,0 +1,23 @@
+{
+  "name": "markdown",
+  "version": "1.0.0",
+  "description": "A small utility to parse Markdown into sanitized HTML",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html --out-dir prod --public-url ./"
+  },
+  "keywords": [
+    "markdown",
+    "parse",
+    "html"
+  ],
+  "author": "Craig McNaughton",
+  "license": "ISC",
+  "dependencies": {
+    "parcel-bundler": "^1.10.3",
+    "sanitize-html": "^1.19.1",
+    "sass": "^1.15.1",
+    "showdown": "^1.9.0"
+  }
+}
