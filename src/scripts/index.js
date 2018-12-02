@@ -40,13 +40,43 @@ editor.addEventListener('input', e => {
   }
 })
 
-document.querySelectorAll('[data-toggle]').forEach(i =>
+document.querySelectorAll('.js-isToggle').forEach(i =>
   i.addEventListener('click', e => {
     e.preventDefault()
-    const el = document.getElementById(e.target.dataset.toggle)
+    let toggle
+    if (e.target.classList.contains('js-isToggle')) {
+      toggle = e.target
+    } else {
+      toggle = e.target.closest('.js-isToggle')
+    }
+    if (toggle.dataset.icon === 'true') {
+      const icon = toggle.querySelector('[data-fa-i2svg]')
+      if (toggle.dataset.toggleOn && toggle.dataset.toggleOff) {
+        if (icon.classList.contains(toggle.dataset.toggleOn)) {
+          icon.classList.replace(
+            toggle.dataset.toggleOn,
+            toggle.dataset.toggleOff
+          )
+        } else {
+          icon.classList.replace(
+            toggle.dataset.toggleOff,
+            toggle.dataset.toggleOn
+          )
+        }
+      }
+    } else {
+      if (toggle.dataset.toggleOn && toggle.dataset.toggleOff) {
+        if (toggle.innerText === toggle.dataset.toggleOn) {
+          toggle.innerText === toggle.dataset.toggleOff
+        } else {
+          toggle.innerText === toggle.dataset.toggleOn
+        }
+      }
+    }
+    const el = document.getElementById(toggle.dataset.toggle)
     el.style.display = el.style.display === 'block' ? 'none' : 'block'
 
-    if (e.target.dataset.toggle === 'source') {
+    if (toggle.dataset.toggle === 'source') {
       if (el.style.display === 'block') {
         document.getElementById('html').style.height = ''
         document.getElementById('formatted').style.height = ''
