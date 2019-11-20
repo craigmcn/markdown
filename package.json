@@ -15,16 +15,17 @@
   "author": "Craig McNaughton",
   "license": "ISC",
   "dependencies": {
-    "parcel-bundler": "^1.10.3",
+    "parcel-bundler": "^1.12.4",
     "sanitize-html": "^1.19.1",
-    "sass": "^1.15.1",
-    "showdown": "^1.9.0"
+    "showdown": "^1.9.1"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions"
   ],
   "devDependencies": {
-    "autoprefixer": "^9.3.1"
+    "autoprefixer": "^9.7.2",
+    "node-sass": "^4.13.0",
+    "sass": "^1.23.6"
   }
 }
