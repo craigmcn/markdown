@@ -1,116 +1,28 @@
-/**
- * Fonts
- */
-@import url('https://fonts.googleapis.com/css?family=Raleway:400, 700|Roboto|Roboto+Mono');
-$raleway-stack: 'Raleway', 'Verdana', 'Lucida Grande', 'Gill Sans', 'Arial',
-  'Helvetica', sans-serif;
-$system-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-  Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
+/* Fonts */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
 $mono-stack: 'Roboto Mono', monospace !default;
 
-/**
-   * Colours
-   */
-$white: #fff;
+/* Colours */
 $black: #222;
-$grey: #adafaa;
-$darkgrey: #444;
-$lightgrey: #ccc;
-$silver: #f8f8f8;
 $pink: #e83e8c;
-$primary: #005b99; /* https://www.canada.ca/en/treasury-board-secretariat/services/government-communications/federal-identity-program/technical-specifications/official-symbols/colour-values.html */
-$secondary: #993d00; /* 180deg from primary*/
-$green: #036803;
-$info: #03607d;
-$red: #b60202;
-$yellow: #f9d615;
-$warning: #695802;
+$silver: #f8f8f8;
+$white: #fff;
 
-/* apply a natural box layout model to all elements, but allowing components to change */
-/* https://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
-html {
-  box-sizing: border-box;
-}
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: $system-stack;
-  height: 100vh;
-  color: $black;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: $raleway-stack;
-}
-
-a {
-  color: $primary;
-  &:hover,
-  &:active {
-    color: darken($primary, 10%);
-  }
-  &:visited {
-    color: lighten($primary, 8%);
-  }
-  &.permanent {
-    &:hover,
-    &:active,
-    &:visited {
-      color: $primary;
-    }
-  }
-}
-
-.header {
-  background-color: $silver;
-  border-bottom: 1px solid darken($silver, 10%);
-  color: $darkgrey;
-  height: 54px; /* text 21px, padding 16px * 2, border 1px */
-  padding: 1rem;
-
-  & h1 {
-    font-size: 1.1rem;
-    font-weight: normal;
-  }
-}
-
+/* Styles */
 .subheader {
-  padding: 1rem;
+  margin-bottom: 0;
+  padding: 0 1rem;
   border-bottom: 1px solid $silver;
 }
 
 .grid {
   display: grid;
-  display: -ms-grid;
-  grid-template-areas: 'editor formatted' 'editor html';
-  grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr);
+  grid-template-areas: 'editor' 'formatted' 'html';
   height: calc(100vh - 54px); /* 100% - nav height */
 }
 
-.container {
-  &--flex {
-    display: flex;
-    display: -webkit-flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-
 #editor {
+  border-bottom: 1px solid darken($silver, 10%);
   border-right: 1px solid darken($silver, 10%);
   display: flex;
   display: -webkit-flex;
@@ -136,6 +48,7 @@ a {
 
 #content,
 #source {
+  height: 100%;
   overflow: auto;
   padding: 1rem;
 }
@@ -210,6 +123,19 @@ a {
 }
 
 #source {
+  background-color: $white;
   font-family: $mono-stack;
   font-size: 0.875rem;
+}
+
+/* Media queries */
+@media screen and (min-width: 48rem) {
+  .grid {
+    grid-template-areas: 'editor formatted' 'editor html';
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #editor {
+    border-bottom: none;
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "markdown",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A small utility to parse Markdown into sanitized HTML",
   "main": "index.js",
   "scripts": {
@@ -24,8 +24,8 @@
     "last 2 versions"
   ],
   "devDependencies": {
-    "autoprefixer": "^9.7.2",
+    "autoprefixer": "^9.7.3",
     "node-sass": "^4.13.0",
-    "sass": "^1.23.6"
+    "sass": "^1.23.7"
   }
 }
