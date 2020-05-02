@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "parcel-bundler": "^1.12.4",
-    "sanitize-html": "^1.19.1",
+    "sanitize-html": "^1.23.0",
     "showdown": "^1.9.1"
   },
   "browserslist": [
