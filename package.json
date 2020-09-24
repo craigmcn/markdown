@@ -1,11 +1,12 @@
 {
   "name": "markdown",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A small utility to parse Markdown into sanitized HTML",
   "main": "index.js",
   "scripts": {
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html --out-dir prod --public-url ./"
+    "build": "parcel build src/index.html --out-dir prod --public-url ./",
+    "prebuild": "rm -rf prod"
   },
   "keywords": [
     "markdown",
@@ -16,7 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "parcel-bundler": "^1.12.4",
-    "sanitize-html": "^1.27.1",
+    "sanitize-html": "^1.27.5",
     "showdown": "^1.9.1"
   },
   "browserslist": [
@@ -24,9 +25,9 @@
     "last 2 versions"
   ],
   "devDependencies": {
-    "autoprefixer": "^9.8.5",
+    "autoprefixer": "^9.8.6",
     "node-sass": "^4.14.1",
-    "sass": "^1.26.10"
+    "sass": "^1.26.11"
   },
   "repository": {
     "type": "git",
