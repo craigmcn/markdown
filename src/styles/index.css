@@ -1,0 +1,254 @@
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #222;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+h2 {
+  font-weight: 600;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+}
+
+button {
+  background: none;
+  background-color: transparent;
+  border: none;
+  border-radius: 0.25em;
+  color: #005b99;
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  font-size: 0.9em;
+  outline: none;
+  transition: all 0.15s ease-in-out;
+}
+
+button:focus,
+button:hover,
+button:active {
+  box-shadow: none;
+}
+
+button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 91, 153, 0.5);
+}
+
+.header {
+  background-color: #ebebef;
+  border-bottom: 1px solid #c3c3c7;
+  color: #4a4a4e;
+  padding: 0.5rem 1rem;
+}
+
+.subheader {
+  margin-bottom: 0;
+  padding: 0 1rem;
+  border-bottom: 1px solid #f8f8f8;
+}
+
+.header h1,
+.brand {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.brand > svg {
+  vertical-align: middle;
+}
+
+.brand > svg .np__bg {
+  fill: #fff;
+}
+
+.brand > svg .np__txt {
+  fill: #005b99;
+}
+
+.grid {
+  display: grid;
+  grid-template-areas: 'editor' 'formatted' 'html';
+  height: calc(100vh - 54px);
+}
+
+#editor {
+  border-bottom: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
+  display: flex;
+  flex-direction: column;
+  grid-area: editor;
+}
+
+#editor > [contenteditable] {
+  font-family: monospace;
+  height: 100%;
+  max-height: 100%;
+  padding: 1rem;
+}
+
+#formatted {
+  border-bottom: 1px solid #dfdfdf;
+  grid-area: formatted;
+}
+
+#html {
+  grid-area: html;
+}
+
+#content,
+#source {
+  height: 100%;
+  overflow: auto;
+  padding: 1rem;
+}
+
+#content h1,
+#content h2,
+#content h3,
+#content h4,
+#content h5,
+#content h6,
+#content hr,
+#content ol,
+#content p,
+#content pre,
+#content table,
+#content ul {
+  margin-bottom: 0.75em;
+}
+
+#content h1 {
+  font-size: 1.75em;
+}
+
+#content h2 {
+  border: none;
+  padding: 0;
+}
+
+#content table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+#content table,
+#content table th {
+  border-bottom: 1px solid #c5c5c5;
+}
+
+#content table td,
+#content table th {
+  padding: 0.5em 4px;
+}
+
+#content table tbody tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+#content ol,
+#content ul {
+  margin-left: 1em;
+}
+
+#content blockquote {
+  border-left: 1px solid #222;
+  padding-left: 0.5rem;
+}
+
+#content code {
+  color: #e83e8c;
+  display: inline-block;
+  font-family: monospace;
+  font-size: 1rem;
+  padding: 0 2px;
+  word-break: break-word;
+}
+
+#content pre {
+  background-color: #f8f8f8;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+#content pre code {
+  color: #222;
+  font-size: 0.875rem;
+}
+
+#source {
+  background-color: #fff;
+  font-family: monospace;
+  font-size: 0.875rem;
+}
+
+@media screen and (min-width: 48rem) {
+  .grid {
+    grid-template-areas: 'editor formatted' 'editor html';
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header,
+  .subheader {
+    align-items: center;
+    display: flex;
+  }
+
+  #editor {
+    border-bottom: none;
+  }
+}
+
+/* Utilities */
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.w-4 {
+  width: 1rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.icon {
+  display: inline-block;
+}
+
+/* https://a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.visually-hidden a:focus,
+.visually-hidden input:focus,
+.visually-hidden button:focus {
+  position: static;
+  width: auto;
+  height: auto;
+}

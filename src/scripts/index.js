@@ -1,6 +1,5 @@
 import showdown from "showdown";
 import sanitize from "sanitize-html";
-import "../styles/index.scss";
 
 const converter = new showdown.Converter({
     simpleLineBreaks: true,
@@ -38,50 +37,25 @@ editor.querySelector("[contenteditable]").addEventListener("input", e => {
     }
 });
 
-document.querySelectorAll(".js-isToggle").forEach(i =>
-    i.addEventListener("click", e => {
-        e.preventDefault();
-        let toggle = e.target;
-        if (!e.target.classList.contains("js-isToggle")) {
-            toggle = e.target.closest(".js-isToggle");
-        }
-        if (toggle.dataset.icon === "true") {
-            const icon = toggle.querySelector("[data-fa-i2svg]");
-            if (toggle.dataset.toggleOn && toggle.dataset.toggleOff) {
-                if (icon.classList.contains(toggle.dataset.toggleOn)) {
-                    icon.classList.replace(
-                        toggle.dataset.toggleOn,
-                        toggle.dataset.toggleOff
-                    );
-                } else {
-                    icon.classList.replace(
-                        toggle.dataset.toggleOff,
-                        toggle.dataset.toggleOn
-                    );
-                }
-            }
-        } else {
-            if (toggle.dataset.toggleOn && toggle.dataset.toggleOff) {
-                if (toggle.innerText === toggle.dataset.toggleOn) {
-                    toggle.innerText = toggle.dataset.toggleOff;
-                } else {
-                    toggle.innerText = toggle.dataset.toggleOn;
-                }
-            }
-        }
-        const el = document.getElementById(toggle.dataset.toggle);
-        el.style.display = el.style.display === "block" ? "none" : "block";
+document.getElementById('toggleSource').addEventListener("click", e => {
+    e.preventDefault();
 
-        if (toggle.dataset.toggle === "source") {
-            if (el.style.display === "block") {
-                html.style.height = "";
-                formatted.style.height = "";
-            } else {
-                html.style.height =
-                    html.querySelector("header").offsetHeight + "px";
-                formatted.style.height =
-                    editor.offsetHeight - html.offsetHeight + "px";
-            }
-        }
-    })
-);
+    const source = document.getElementById('source');
+    const show = document.getElementById('source-show')
+    const hide = document.getElementById('source-hide')
+    const isHidden = source.hidden;
+
+    source.hidden = !isHidden
+    show.hidden = isHidden
+    hide.hidden = !isHidden
+
+    if (source.hidden) {
+        html.style.height =
+            html.querySelector("header").offsetHeight + "px";
+        formatted.style.height =
+            editor.offsetHeight - html.offsetHeight + "px";
+    } else {
+        html.style.height = "";
+        formatted.style.height = "";
+    }
+})
