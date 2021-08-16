@@ -16,8 +16,10 @@ html {
 
 body {
   color: #222;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  /* https://meta.stackexchange.com/questions/364048/we-are-switching-to-system-fonts-on-may-10-2021 */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Ubuntu', 'Roboto', 'Noto Sans', 'Droid Sans', sans-serif;
+  font-size: 90%;
 }
 
 h2 {
@@ -69,109 +71,139 @@ button:focus {
   font-weight: 600;
 }
 
-.brand > svg {
+.brand > a {
+  color: #4a4a4e;
+  text-decoration: none;
+}
+
+.brand svg {
   vertical-align: middle;
 }
 
-.brand > svg .np__bg {
+.brand svg .np__bg {
   fill: #fff;
 }
 
-.brand > svg .np__txt {
+.brand svg .np__txt {
   fill: #005b99;
 }
 
 .grid {
   display: grid;
-  grid-template-areas: 'editor' 'formatted' 'html';
-  height: calc(100vh - 54px);
+  grid-template-areas: 'markdown' 'html' 'preview';
+  grid-template-rows: 1fr 1fr 1fr;
+  height: calc(100vh - 80px);
 }
 
-#editor {
-  border-bottom: 1px solid #dfdfdf;
-  border-right: 1px solid #dfdfdf;
+#markdown,
+#html,
+#preview {
   display: flex;
   flex-direction: column;
-  grid-area: editor;
 }
 
-#editor > [contenteditable] {
-  font-family: monospace;
-  height: 100%;
-  max-height: 100%;
-  padding: 1rem;
-}
-
-#formatted {
+#markdown,
+#html {
   border-bottom: 1px solid #dfdfdf;
-  grid-area: formatted;
+}
+
+#markdown {
+  border-right: 1px solid #dfdfdf;
+  grid-area: markdown;
 }
 
 #html {
   grid-area: html;
 }
 
-#content,
-#source {
+#markdown-editor,
+#html-editor {
   height: 100%;
-  overflow: auto;
-  padding: 1rem;
 }
 
-#content h1,
-#content h2,
-#content h3,
-#content h4,
-#content h5,
-#content h6,
-#content hr,
-#content ol,
-#content p,
-#content pre,
-#content table,
-#content ul {
+#preview {
+  grid-area: preview;
+  max-height: 60vh;
+  min-height: 20vh;
+  position: relative;
+}
+
+#preview > .subheader::before {
+  background-color: rgba(223, 223, 223, 0.2);
+  top: 0;
+  content: '';
+  cursor: ns-resize;
+  height: 4px; /* resize handle size, used in index.js */
+  margin-left: -1rem; /* reset .subheader padding */
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+#preview > .subheader:hover::before {
+  background-color: rgba(223, 223, 223, 0.8);
+}
+
+#preview-content {
+  height: calc(100% - 61px);
+  overflow-y: auto;
+  padding: 0 1rem;
+}
+
+#preview-content h1,
+#preview-content h2,
+#preview-content h3,
+#preview-content h4,
+#preview-content h5,
+#preview-content h6,
+#preview-content hr,
+#preview-content ol,
+#preview-content p,
+#preview-content pre,
+#preview-content table,
+#preview-content ul {
   margin-bottom: 0.75em;
 }
 
-#content h1 {
+#preview-content h1 {
   font-size: 1.75em;
 }
 
-#content h2 {
+#preview-content h2 {
   border: none;
   padding: 0;
 }
 
-#content table {
+#preview-content table {
   border-spacing: 0;
   width: 100%;
 }
 
-#content table,
-#content table th {
+#preview-content table,
+#preview-content table th {
   border-bottom: 1px solid #c5c5c5;
 }
 
-#content table td,
-#content table th {
+#preview-content table td,
+#preview-content table th {
   padding: 0.5em 4px;
 }
 
-#content table tbody tr:nth-child(2n) {
+#preview-content table tbody tr:nth-child(2n) {
   background-color: #f8f8f8;
 }
 
-#content ol,
-#content ul {
+#preview-content ol,
+#preview-content ul {
   margin-left: 1em;
 }
 
-#content blockquote {
+#preview-content blockquote {
   border-left: 1px solid #222;
   padding-left: 0.5rem;
 }
 
-#content code {
+#preview-content code {
   color: #e83e8c;
   display: inline-block;
   font-family: monospace;
@@ -180,27 +212,26 @@ button:focus {
   word-break: break-word;
 }
 
-#content pre {
+#preview-content pre {
   background-color: #f8f8f8;
   padding: 0.5rem;
   width: 100%;
 }
 
-#content pre code {
+#preview-content pre code {
   color: #222;
   font-size: 0.875rem;
 }
 
-#source {
-  background-color: #fff;
-  font-family: monospace;
-  font-size: 0.875rem;
-}
-
 @media screen and (min-width: 48rem) {
+  body {
+    font-size: 100%;
+  }
   .grid {
-    grid-template-areas: 'editor formatted' 'editor html';
+    grid-template-areas: 'markdown html' 'preview preview';
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2fr 1fr;
+    height: calc(100vh - 57px);
   }
 
   .header,
@@ -209,8 +240,8 @@ button:focus {
     display: flex;
   }
 
-  #editor {
-    border-bottom: none;
+  #preview {
+    max-height: 80vh;
   }
 }
 
