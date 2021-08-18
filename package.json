@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "gulp build --env=production",
+    "build:netlify": "gulp build --env=netlify",
     "dev": "gulp build",
     "serve": "gulp serve"
   },
