@@ -1,0 +1,38 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+        "source.fixAll.stylelint": true
+    },
+    "editor.formatOnSave": false,
+    "[html]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "[javascript]": {
+        "editor.formatOnSave": true,
+    },
+    "[css]": {
+        "editor.formatOnSave": true,
+    },
+    "css.validate": false,
+    "editor.detectIndentation": false,
+    "eslint.validate": [
+        "javascript"
+    ],
+    "stylelint.validate": [
+        "css",
+        "html",
+    ],
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "cSpell.words": [
+        "allowfullscreen",
+        "browserslist",
+        "cleancss",
+        "craigmcn",
+        "DDTHH",
+        "gulpif",
+        "msapplication",
+        "musicmonday"
+    ]
+}
