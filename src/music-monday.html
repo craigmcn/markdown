@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="XUA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Music Monday Markdown Generator</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=wAdO0d8bp8">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=wAdO0d8bp8">
+    <link rel="icon" type="image/png" sizes="194x194" href="/favicon-194x194.png?v=wAdO0d8bp8">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png?v=wAdO0d8bp8">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=wAdO0d8bp8">
+    <link rel="manifest" href="/site.webmanifest?v=wAdO0d8bp8">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=wAdO0d8bp8" color="#005b99">
+    <link rel="shortcut icon" href="/favicon.ico?v=wAdO0d8bp8">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#005b99">
+
+    <link rel="stylesheet" href="https://www.craigmcn.com/albertcss/css/albert.min.css">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            max-height: 100vh;
+        }
+
+        pre {
+            background-color: inherit;
+            height: calc(100%);
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header" style="flex: 0;">
+        <div class="brand">
+            <a class="flex m-b-0" href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="mr-2" width="40">
+                    <rect class="np__bg" width="512" height="512" rx="51.2"></rect>
+                    <path class="np__txt"
+                        d="M507.1 334.5c0-12.2-.9-24.2-4-36-4.5-16.9-14-30.2-30.2-37.2-13.4-5.8-27.9-5.8-42.1-3.2-19.7 3.6-36.9 12.2-49.7 28.3-2.2 2.8-4.3 5.6-6.5 8.3-.4-.4-.8-.6-.9-.9-.3-.6-.4-1.2-.6-1.8-5.3-16.2-16.3-27-32.3-32-17.9-5.5-36-4-53.6 1.5-17.7 5.5-32.5 15.5-43 31.8 0-9.4-.1-18.9.1-28.4.1-3.3-.9-4.1-4.2-4.1-15.5.2-31 .2-46.5 0-4-.1-4.5 1.2-4.5 4.8.1 63.8.1 127.6 0 191.4 0 3.7.6 5.1 4.8 5 17.2-.3 34.3-.2 51.5 0 3.9.1 4.9-.9 4.9-4.9l-.1-106.4c0-2.1.3-4.1 1.1-6.2 3.6-10.1 9.8-18.1 17.9-25.1 9.5-8.2 25.2-10.9 34.5-5.3 10.3 6.3 13.4 16.7 13.5 27.7.3 38.3.2 76.6 0 114.9 0 4 .7 5.4 5 5.3 17.3-.3 34.6-.3 52 0 4.1.1 5.2-.9 5.2-5.1-.2-36-.1-71.9-.1-107.9 0-1.6-.2-3.5.5-4.9 5.8-12.9 13.8-24 27.2-30.1 15.5-7 29-1.2 34.8 11.2 3.5 7.5 4.3 15.7 4.4 23.9.2 35.8.2 71.6 0 107.4 0 4.8 1.5 5.6 5.8 5.5 16.8-.2 33.7-.2 50.5 0 3.8 0 5-.8 5-4.8-.5-41.1-.4-81.9-.4-122.7zM161.3 411.2c-2 4.7-4.8 9.1-8.6 12.3-16.4 13.6-34.6 21.3-56.6 18.4-13.6-1.8-25.6-6.9-35.5-15.6-23.9-21-32.3-48.3-28-79.1 2.6-18.9 11-35.4 25.9-48.2 11.5-9.8 24.6-15.7 39.5-17 13.6-1.2 26.7 1.2 38.8 8.1 10.3 5.9 18.6 13.8 24.2 24.4 8.2-2.6 16.7-5.2 25.4-8-5.4-11.5-16.8-24.6-27.2-31.6-25.2-17.1-52.9-19.6-81.5-12.4-19.3 4.8-35.6 15.4-48.5 31-14.3 17.3-21.7 37.2-23.7 59.1-1.1 12-.2 24 2.9 35.8 6.5 25 19.8 45.4 41 60 20.2 13.9 42.6 19.5 67.2 16.7 15.2-1.7 29.2-6.1 42-14.2 13.4-8.4 23.7-19.6 29.9-34.5-7.8-2.2-15.3-4.1-22.6-6.7-2.9-1.3-3.8-.4-4.6 1.5z">
+                    </path>
+                </svg>
+                craigmcn
+            </a>
+        </div>
+        <h1>Music Monday Markdown</h1>
+    </header>
+
+    <main style="flex: 1;">
+
+        <div class="flex m-t-md">
+            <div class="p-h-md" style="flex: 1;">
+                <h1>Music Monday</h1>
+
+                <form id="generate" class="form" action="" method="get">
+                    <div class="form__group">
+                        <label class="form__label" for="date">Post date and time</label>
+                        <input type="text" class="form__control" id="date" name="date" maxlength="100"
+                            placeholder="Post date and time">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="title">Title</label>
+                        <input type="text" class="form__control" id="title" name="title" maxlength="100"
+                            placeholder="Song title">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="titleUrl">Title URL</label>
+                        <input type="url" class="form__control" id="titleUrl" name="titleUrl" maxlength="150"
+                            placeholder="Song URL">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="originalArtist">Artist</label>
+                        <input type="text" class="form__control" id="originalArtist" name="originalArtist"
+                            maxlength="100" placeholder="Original artist">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="originalArtistUrl">Artist URL</label>
+                        <input type="url" class="form__control" id="originalArtistUrl" name="originalArtistUrl"
+                            maxlength="150" placeholder="Original artist URL">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="originalAlbum">Album</label>
+                        <input type="text" class="form__control" id="originalAlbum" name="originalAlbum" maxlength="100"
+                            placeholder="Original album">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="originalAlbumUrl">Album URL</label>
+                        <input type="url" class="form__control" id="originalAlbumUrl" name="originalAlbumUrl"
+                            maxlength="150" placeholder="Original album URL">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="originalYear">Year</label>
+                        <input type="number" class="form__control" id="originalYear" name="originalYear" maxlength="4"
+                            min="1900" max="2100" step="1" value="2018" placeholder="Original year">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="originalVideo">Video</label>
+                        <input type="text" class="form__control" id="originalVideo" name="originalVideo" maxlength="150"
+                            placeholder="Original video">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="coverArtist">Cover artist</label>
+                        <input type="text" class="form__control" id="coverArtist" name="coverArtist" maxlength="100"
+                            placeholder="Cover artist">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="coverArtistUrl">Cover artist URL</label>
+                        <input type="url" class="form__control" id="coverArtistUrl" name="coverArtistUrl"
+                            maxlength="150" placeholder="Cover artist URL">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="coverAlbum">Cover album</label>
+                        <input type="text" class="form__control" id="coverAlbum" name="coverAlbum" maxlength="100"
+                            placeholder="Cover album">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="coverAlbumUrl">Cover album URL</label>
+                        <input type="url" class="form__control" id="coverAlbumUrl" name="coverAlbumUrl" maxlength="150"
+                            placeholder="Cover album URL">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="coverYear">Cover year</label>
+                        <input type="number" class="form__control" id="coverYear" name="coverYear" maxlength="4"
+                            min="1900" max="2100" step="1" value="2018" placeholder="Cover year">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="coverVideo">Cover video</label>
+                        <input type="text" class="form__control" id="coverVideo" name="coverVideo" maxlength="150"
+                            placeholder="Cover video">
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label" for="complementaryText">Complementary text</label>
+                        <textarea class="form__control" id="complementaryText" name="complementaryText" maxlength="500"
+                            placeholder="I was thinking about &hellip;"></textarea>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="m-r-sm" style="flex: 3;">
+
+                <pre id="markdown" aria-live="polite" contenteditable=""></pre>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="js/mm.js"></script>
+
+</body>
+
+</html>
