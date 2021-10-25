@@ -2,10 +2,10 @@ ready(() => {
     const defaultYear = new Date().getFullYear()
     const {
         dayYmd,
-        dayYmd_Hs,
-        dayYmdT
+        dayYmdHs,
+        dayYmdT,
     } = nextMonday()
-    document.getElementById('date').value = dayYmd_Hs
+    document.getElementById('date').value = dayYmdHs
     template.postDateYmd = dayYmd
     template.postDateAtom = dayYmdT
     document.getElementById('coverYear').value = defaultYear
@@ -14,30 +14,31 @@ ready(() => {
 })
 
 document.getElementById('generate').addEventListener('input', (e) => {
+    const postDate = new Date(e.target.value)
+    const postDateArray =
+            postDate !== 'Invalid Date'
+                ? postDate.toString().split(' ')
+                : Date.now.toString().split(' ')
+
     switch (e.target.id) {
         case 'title':
             template.title = e.target.value.trim()
             template.titleFriendly = template.title
                 .toLowerCase()
-                .replace(/[^a-z0-9\-]/g, '-')
+                .replace(/[^a-z0-9-]/g, '-')
                 .replace('--', '-')
             break
         case 'date':
-            const postDate = new Date(e.target.value)
-            const postDateArray =
-                postDate !== 'Invalid Date' ?
-                postDate.toString().split(' ') :
-                Date.now.toString().split(' ')
             template.postDateYmd = `${postDate.getFullYear()}-${(
-        postDate.getMonth() +
+                postDate.getMonth() +
         1 +
         ''
-      ).padStart(2, 0)}-${(postDate.getDate() + '').padStart(2, 0)}`
+            ).padStart(2, 0)}-${(postDate.getDate() + '').padStart(2, 0)}`
             template.postDateAtom = `${template.postDateYmd}T${
-        postDateArray[4]
-      }${postDateArray[5].substr(3)}` //2018-09-17T04:45:00-07:00
+                postDateArray[4]
+            }${postDateArray[5].substr(3)}` // 2018-09-17T04:45:00-07:00
             break
-        case 'originalVideo': //fallthrough
+        case 'originalVideo': // fallthrough
         case 'coverVideo':
             template[e.target.id + 'Id'] = e.target.value.split('/').reverse()[0]
             break
@@ -49,11 +50,11 @@ document.getElementById('generate').addEventListener('input', (e) => {
     document.getElementById('markdown').innerHTML = template.text()
 })
 
-function ready(fn) {
+function ready (fn) {
     if (
-        document.attachEvent ?
-        document.readyState === 'complete' :
-        document.readyState !== 'loading'
+        document.attachEvent
+            ? document.readyState === 'complete'
+            : document.readyState !== 'loading'
     ) {
         fn()
     } else {
@@ -72,14 +73,14 @@ const nextMonday = () => {
     day.setSeconds(0)
     const dayArray = day.toString().split(' ')
     const dayYmd = `${day.getFullYear()}-${(day.getMonth() + 1 + '').padStart(
-    2,
-    0
-  )}-${(day.getDate() + '').padStart(2, 0)}`
-    const dayYmd_Hs = `${dayYmd} ${day.getHours()}:${day.getMinutes()}`
+        2,
+        0,
+    )}-${(day.getDate() + '').padStart(2, 0)}`
+    const dayYmdHs = `${dayYmd} ${day.getHours()}:${day.getMinutes()}`
     const dayYmdT = `${dayYmd}T${dayArray[4]}${dayArray[5].substr(3)}`
     return {
         dayYmd,
-        dayYmd_Hs,
+        dayYmdHs,
         dayYmdT,
     }
 }
@@ -89,7 +90,7 @@ const template = {
     titleFriendly: 'title-friendly',
     titleUrl: 'http://example.com',
     postDateYmd: 'YYYY-MM-DD',
-    postDateAtom: 'YYYY-MM-DDTHH:MM:SSO', //e.g., 2018-09-17T04:45:00-07:00
+    postDateAtom: 'YYYY-MM-DDTHH:MM:SSO', // e.g., 2018-09-17T04:45:00-07:00
     originalYear: new Date().getFullYear(),
     originalArtist: 'ORIGINAL ARTIST',
     originalArtistUrl: 'http://example.com',
@@ -103,7 +104,7 @@ const template = {
     coverAlbumUrl: 'http://example.com',
     coverVideoId: 'COVER_ID',
     complementaryText: '',
-    text() {
+    text () {
         return `---
 ${this.postDateYmd}-${this.titleFriendly}.md
 ---
