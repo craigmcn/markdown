@@ -18,7 +18,7 @@
     "files.eol": "\n",
     "files.insertFinalNewline": true,
     "beautify.language": {
-      "css": ["css", "scss"],
+        "css": ["css"],
     },
     "cSpell.words": [
         "allowfullscreen",
