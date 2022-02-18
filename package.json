@@ -1,6 +1,6 @@
 {
   "name": "markdown",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "A small utility to parse Markdown into sanitized HTML",
   "main": "index.js",
   "scripts": {
@@ -17,16 +17,16 @@
   "author": "Craig McNaughton",
   "license": "ISC",
   "dependencies": {
-    "sanitize-html": "^2.6.1",
-    "showdown": "^1.9.1"
+    "sanitize-html": "^2.7.0",
+    "showdown": "^2.0.0"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions"
   ],
   "devDependencies": {
-    "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.7",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
     "babelify": "^10.0.0",
     "browser-sync": "^2.27.7",
     "browserify": "^17.0.0",
