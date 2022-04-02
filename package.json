@@ -44,7 +44,7 @@
     "gulp-rev-rewrite": "^5.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
