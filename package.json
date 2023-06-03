@@ -1,13 +1,14 @@
 {
   "name": "markdown",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "A small utility to parse Markdown into sanitized HTML",
   "main": "index.js",
   "scripts": {
     "build": "gulp build --env=production",
     "build:netlify": "gulp build --env=netlify",
     "dev": "gulp build",
-    "serve": "gulp serve"
+    "serve": "gulp serve",
+    "lint": "./node_modules/.bin/eslint src"
   },
   "keywords": [
     "markdown",
@@ -17,7 +18,7 @@
   "author": "Craig McNaughton",
   "license": "ISC",
   "dependencies": {
-    "sanitize-html": "^2.7.3",
+    "sanitize-html": "^2.10.0",
     "showdown": "^2.1.0"
   },
   "browserslist": [
@@ -25,16 +26,17 @@
     "last 2 versions"
   ],
   "devDependencies": {
-    "@babel/core": "^7.20.2",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/core": "^7.22.1",
+    "@babel/preset-env": "^7.22.4",
     "babelify": "^10.0.0",
-    "browser-sync": "^2.27.11",
+    "browser-sync": "^2.29.3",
     "browserify": "^17.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint": "^8.42.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-promise": "^6.1.1",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
@@ -44,7 +46,7 @@
     "gulp-rev-rewrite": "^5.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "minimist": "^1.2.7",
+    "minimist": "^1.2.8",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
