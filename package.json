@@ -18,7 +18,7 @@
   "author": "Craig McNaughton",
   "license": "ISC",
   "dependencies": {
-    "sanitize-html": "^2.10.0",
+    "sanitize-html": "^2.12.1",
     "showdown": "^2.1.0"
   },
   "browserslist": [
