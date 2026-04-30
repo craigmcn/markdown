@@ -15,7 +15,7 @@ export const nextMonday = (): MusicMondayDates => {
   day.setSeconds(0);
   const dayArray = day.toString().split(' ');
   const dayYmd = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-  const dayYmdHs = `${dayYmd} ${day.getHours()}:${day.getMinutes()}`;
+  const dayYmdHs = `${dayYmd} ${String(day.getHours()).padStart(2, '0')}:${String(day.getMinutes()).padStart(2, '0')}`;
   const dayYmdT = `${dayYmd}T${dayArray[4]}${dayArray[5].substring(3)}`;
   return { dayYmd, dayYmdHs, dayYmdT };
 };

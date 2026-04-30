@@ -69,9 +69,13 @@ ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Ru
 - Added `.github/workflows/test.yml` (lint → build → coverage)
 - Added `CLAUDE.md` and `.github/CODEOWNERS`
 
-### Next
+### In progress (PR #58 open)
 
-- [ ] Open PR against `main`
+- [x] Opened PR #58 against `main`
+- [x] Updated README (end-user usage + developer usage sections)
 - [ ] Confirm CI (`test` job) passes on GitHub Actions
 - [ ] Apply branch protection: require PR, 1 approval with owner bypass, require `test` status check, dismiss stale reviews, block force push + deletion
-- [ ] Update README (end-user usage + developer usage sections)
+
+### Known follow-up items (non-blocking)
+
+- `sanitise` / `sanitisation` → American English in source comments if any are added

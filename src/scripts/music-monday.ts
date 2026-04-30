@@ -28,7 +28,7 @@ document.getElementById('generate')?.addEventListener('input', (e) => {
       template.titleFriendly = template.title
         .toLowerCase()
         .replace(/[^a-z0-9-]/g, '-')
-        .replace('--', '-');
+        .replace(/-{2,}/g, '-');
       break;
     case 'date':
       template.postDateYmd = `${postDate.getFullYear()}-${String(postDate.getMonth() + 1).padStart(2, '0')}-${String(postDate.getDate()).padStart(2, '0')}`;
