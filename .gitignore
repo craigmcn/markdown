@@ -4,5 +4,8 @@ node_modules
 dist
 tmp
 netlify
+coverage
+.yarn/cache
+.yarn/install-state.gz
 .vscode/*
 !.vscode/settings.json
