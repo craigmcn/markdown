@@ -53,3 +53,25 @@ ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Ru
 - **`base: './'`** — Both the local `dist/` build and the two Netlify builds use relative asset paths, so the same config works when served from the domain root or the `/markdown/` sub-path.
 - **No React plugin** — This is a vanilla TypeScript app; `vite.config.ts` has no `@vitejs/plugin-react`.
 - **Multi-page input** — `vite.config.ts` uses `rollupOptions.input` with both `index.html` and `music-monday.html` as named entry points.
+- **Standalone Yarn 4 project** — an empty `yarn.lock` is required at the repo root; without it Yarn 4 walks up and finds a `package.json` at `~/` and errors with "not part of project".
+- **`MusicMondayTemplate.originalYear` / `coverYear` typed `string | number`** — the form returns strings on input but the template initialises them as numbers; widening the type avoids a cast without changing runtime behaviour.
+- **Branch coverage intentionally partial** — `nextMonday()`'s day-of-week ternary can only hit one branch per test run without mocking `Date`. Statement/function/line coverage is 100%; branch coverage is left as-is.
+
+## Modernization status (2026-04-30)
+
+### Completed (branch `vite-migration`)
+
+- Replaced Gulp + Browserify + Babel with Vite 8 multi-page build
+- Switched npm → Yarn 4; deleted `package-lock.json`; bumped Node to v24
+- Migrated ESLint 8 → ESLint 9 flat config; added Prettier
+- Converted JS → TypeScript; extracted `src/utils/` for testability
+- Added 23 Vitest unit tests — all passing, 100% statement/line coverage
+- Added `.github/workflows/test.yml` (lint → build → coverage)
+- Added `CLAUDE.md` and `.github/CODEOWNERS`
+
+### Next
+
+- [ ] Open PR against `main`
+- [ ] Confirm CI (`test` job) passes on GitHub Actions
+- [ ] Apply branch protection: require PR, 1 approval with owner bypass, require `test` status check, dismiss stale reviews, block force push + deletion
+- [ ] Update README (end-user usage + developer usage sections)
