@@ -1,13 +1,13 @@
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig({
-  base: './',
+  base: "./",
   build: {
     rollupOptions: {
       input: {
-        main: resolve(import.meta.dirname, 'index.html'),
-        musicMonday: resolve(import.meta.dirname, 'music-monday.html'),
+        main: resolve(import.meta.dirname, "index.html"),
+        musicMonday: resolve(import.meta.dirname, "music-monday.html"),
       },
     },
   },

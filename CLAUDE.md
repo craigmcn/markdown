@@ -42,7 +42,7 @@ A vanilla TypeScript multi-page app (Vite 8) with two pages:
 
 ## ESLint + Prettier
 
-Formatting is handled by Prettier (`.prettierrc`): single quotes, semicolons, 2-space indent. Run `yarn format` to apply.
+Formatting is handled by Prettier (`.prettierrc` is `{}` — all defaults). Run `yarn format` to apply.
 
 ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Run `yarn lint` (read-only, fails on any error) or `yarn lint:fix`.
 
@@ -57,9 +57,11 @@ ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Ru
 - **`MusicMondayTemplate.originalYear` / `coverYear` typed `string | number`** — the form returns strings on input but the template initialises them as numbers; widening the type avoids a cast without changing runtime behaviour.
 - **Branch coverage intentionally partial** — `nextMonday()`'s day-of-week ternary can only hit one branch per test run without mocking `Date`. Statement/function/line coverage is 100%; branch coverage is left as-is.
 
-## Modernization status (2026-04-30)
+## Modernization status — COMPLETE (2026-04-30)
 
-### Completed (branch `vite-migration`)
+PR #58 merged into `main`. Branch protection applied.
+
+### Completed
 
 - Replaced Gulp + Browserify + Babel with Vite 8 multi-page build
 - Switched npm → Yarn 4; deleted `package-lock.json`; bumped Node to v24
@@ -67,15 +69,14 @@ ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Ru
 - Converted JS → TypeScript; extracted `src/utils/` for testability
 - Added 23 Vitest unit tests — all passing, 100% statement/line coverage
 - Added `.github/workflows/test.yml` (lint → build → coverage)
-- Added `CLAUDE.md` and `.github/CODEOWNERS`
-
-### In progress (PR #58 open)
-
-- [x] Opened PR #58 against `main`
-- [x] Updated README (end-user usage + developer usage sections)
-- [ ] Confirm CI (`test` job) passes on GitHub Actions
-- [ ] Apply branch protection: require PR, 1 approval with owner bypass, require `test` status check, dismiss stale reviews, block force push + deletion
+- Added `CLAUDE.md`, `.github/CODEOWNERS`, updated README
+- Fixed `dayYmdHs` minute zero-padding in `nextMonday()`
+- Fixed slug double-dash collapse: `replace('--','-')` → `replace(/-{2,}/g, '-')`
+- PR #58 merged; CI passed
+- Branch protection on `main`: require PR, 1 approval (owner bypass for `@craigmcn`), `test` status check required, stale reviews dismissed, force push + deletion blocked
 
 ### Known follow-up items (non-blocking)
 
-- `sanitise` / `sanitisation` → American English in source comments if any are added
+- Use American English in any future source comments (`sanitize` / `sanitization`, not `sanitise`)
+- Implement vertical panel resizing (between Markdown and HTML panels), consistent with the existing horizontal resize handle on the Preview panel
+- Review CSS for consistency with AlbertCSS — header fonts appear incorrect

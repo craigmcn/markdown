@@ -1,5 +1,5 @@
-import showdown from 'showdown';
-import { cleanHtml } from '../utils/markdown';
+import showdown from "showdown";
+import { cleanHtml } from "../utils/markdown";
 
 const converter = new showdown.Converter({
   simpleLineBreaks: true,
@@ -7,33 +7,35 @@ const converter = new showdown.Converter({
   tables: true,
 });
 
-const main = document.querySelector('main.grid') as HTMLElement;
-const preview = document.getElementById('preview') as HTMLElement;
-const previewHeader = preview.querySelector('.subheader') as HTMLElement;
-const previewContent = document.getElementById('preview-content') as HTMLElement;
+const main = document.querySelector("main.grid") as HTMLElement;
+const preview = document.getElementById("preview") as HTMLElement;
+const previewHeader = preview.querySelector(".subheader") as HTMLElement;
+const previewContent = document.getElementById(
+  "preview-content",
+) as HTMLElement;
 
 /* Editor */
 // https://ace.c9.io/#nav=howto
-const markdownEditor = ace.edit('markdown-editor', {
-  mode: 'ace/mode/markdown',
-  newLineMode: 'unix',
+const markdownEditor = ace.edit("markdown-editor", {
+  mode: "ace/mode/markdown",
+  newLineMode: "unix",
   wrap: true,
 });
-const htmlEditor = ace.edit('html-editor', {
-  mode: 'ace/mode/html',
-  newLineMode: 'unix',
+const htmlEditor = ace.edit("html-editor", {
+  mode: "ace/mode/html",
+  newLineMode: "unix",
   wrap: true,
 });
 
-markdownEditor.session.selection.on('changeSelection', () => {
+markdownEditor.session.selection.on("changeSelection", () => {
   markdownEditorChange();
 });
-markdownEditor.session.selection.on('changeCursor', () => {
+markdownEditor.session.selection.on("changeCursor", () => {
   markdownEditorChange();
 });
 
 const markdownEditorChange = () => {
-  if (document.activeElement?.parentElement?.id === 'markdown-editor') {
+  if (document.activeElement?.parentElement?.id === "markdown-editor") {
     const markdownValue = markdownEditor.getValue();
     const convertedHtml = converter.makeHtml(markdownValue);
     const clean = cleanHtml(convertedHtml);
@@ -43,15 +45,15 @@ const markdownEditorChange = () => {
   }
 };
 
-htmlEditor.session.selection.on('changeSelection', () => {
+htmlEditor.session.selection.on("changeSelection", () => {
   htmlEditorChange();
 });
-htmlEditor.session.selection.on('changeCursor', () => {
+htmlEditor.session.selection.on("changeCursor", () => {
   htmlEditorChange();
 });
 
 const htmlEditorChange = () => {
-  if (document.activeElement?.parentElement?.id === 'html-editor') {
+  if (document.activeElement?.parentElement?.id === "html-editor") {
     const htmlValue = htmlEditor.getValue();
     const convertedMarkdown = converter.makeMarkdown(htmlValue);
     previewContent.innerHTML = cleanHtml(htmlValue);
@@ -67,16 +69,16 @@ let touchDiff: number | undefined;
 const HANDLE_SIZE = 4; // set in CSS
 
 const setPreviewHeight = (e: Event) => {
-  if (e.type === 'mousemove') previewTop = (e as MouseEvent).clientY;
-  if (e.type === 'touchmove')
-    previewTop =
-      (e as TouchEvent).touches[0].clientY - (touchDiff ?? 0);
+  if (e.type === "mousemove") previewTop = (e as MouseEvent).clientY;
+  if (e.type === "touchmove")
+    previewTop = (e as TouchEvent).touches[0].clientY - (touchDiff ?? 0);
 
   if (previewTop !== undefined) {
     const previewStyle = getComputedStyle(preview);
     const maxHeight = parseInt(previewStyle.maxHeight);
     const minHeight = parseInt(previewStyle.minHeight);
-    const numAreas = getComputedStyle(main).gridTemplateAreas.split('" ').length;
+    const numAreas =
+      getComputedStyle(main).gridTemplateAreas.split('" ').length;
 
     const newHeight = window.innerHeight - previewTop;
     const setHeight =
@@ -90,48 +92,48 @@ const setPreviewHeight = (e: Event) => {
       previewTop = window.innerHeight - setHeight;
     }
 
-    main.style.gridTemplateRows = `${numAreas === 3 ? 'auto ' : ''}auto ${setHeight}px`;
+    main.style.gridTemplateRows = `${numAreas === 3 ? "auto " : ""}auto ${setHeight}px`;
   }
 
   markdownEditor.resize();
   htmlEditor.resize();
 };
 
-preview.querySelector('.subheader')?.addEventListener(
-  'mousedown',
+preview.querySelector(".subheader")?.addEventListener(
+  "mousedown",
   (e: Event) => {
     if ((e as MouseEvent).offsetY <= HANDLE_SIZE) {
-      document.addEventListener('mousemove', setPreviewHeight, false);
+      document.addEventListener("mousemove", setPreviewHeight, false);
     }
   },
   false,
 );
 
 document.addEventListener(
-  'mouseup',
+  "mouseup",
   () => {
-    document.removeEventListener('mousemove', setPreviewHeight, false);
+    document.removeEventListener("mousemove", setPreviewHeight, false);
   },
   false,
 );
 
-preview.querySelector('.subheader')?.addEventListener(
-  'touchstart',
+preview.querySelector(".subheader")?.addEventListener(
+  "touchstart",
   (e: Event) => {
     touchDiff =
       (e as TouchEvent).touches[0].clientY -
       previewHeader.getBoundingClientRect().top;
-    document.addEventListener('touchmove', setPreviewHeight, false);
+    document.addEventListener("touchmove", setPreviewHeight, false);
   },
   false,
 );
 
 document.addEventListener(
-  'touchend',
+  "touchend",
   () => {
-    document.removeEventListener('touchmove', setPreviewHeight, false);
+    document.removeEventListener("touchmove", setPreviewHeight, false);
   },
   false,
 );
 
-window.addEventListener('resize', setPreviewHeight, false);
+window.addEventListener("resize", setPreviewHeight, false);
