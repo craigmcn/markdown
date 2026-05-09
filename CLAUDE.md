@@ -30,7 +30,7 @@ A vanilla TypeScript multi-page app (Vite 8) with two pages:
 
 **Key source locations:**
 
-- `src/utils/markdown.ts` — `cleanHtml`: the sanitise-and-normalise function; the primary unit-tested logic.
+- `src/utils/markdown.ts` — `cleanHtml` (sanitize-and-normalize), `markdownToHtml` (marked + cleanHtml), `htmlToMarkdown` (turndown); the primary unit-tested logic.
 - `src/utils/music-monday.ts` — `nextMonday()` (date calculation) and `template` (post template object with `text()` method).
 - `src/scripts/index.ts` — Ace editor wiring and resize-handle logic for the Markdown Parser page.
 - `src/scripts/music-monday.ts` — Form input handling and DOM updates for the Music Monday page.
@@ -50,7 +50,7 @@ ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Ru
 ## Key decisions
 
 - **`ace` from CDN** — Ace is not bundled; `src/types/globals.d.ts` declares a minimal global interface covering the methods actually used (`edit`, `getValue`, `setValue`, `clearSelection`, `resize`, `session.selection.on`).
-- **`src/utils/` extracted for testability** — `cleanHtml` and the music-monday logic live in `src/utils/` rather than inline in the script files so they can be unit-tested without a DOM or Ace dependency.
+- **`src/utils/` extracted for testability** — `cleanHtml`, `markdownToHtml`, `htmlToMarkdown`, and the music-monday logic live in `src/utils/` rather than inline in the script files so they can be unit-tested without a DOM or Ace dependency.
 - **`base: './'`** — Both the local `dist/` build and the two Netlify builds use relative asset paths, so the same config works when served from the domain root or the `/markdown/` sub-path.
 - **No React plugin** — This is a vanilla TypeScript app; `vite.config.ts` has no `@vitejs/plugin-react`.
 - **Multi-page input** — `vite.config.ts` uses `rollupOptions.input` with both `index.html` and `music-monday.html` as named entry points.
@@ -68,7 +68,7 @@ PR #58 merged into `main`. Branch protection applied.
 - Switched npm → Yarn 4; deleted `package-lock.json`; bumped Node to v24
 - Migrated ESLint 8 → ESLint 9 flat config; added Prettier
 - Converted JS → TypeScript; extracted `src/utils/` for testability
-- Added 23 Vitest unit tests — all passing, 100% statement/line coverage
+- Added 23 Vitest unit tests — all passing, 100% statement/line coverage (33 as of PR #62)
 - Added `.github/workflows/test.yml` (lint → build → coverage)
 - Added `CLAUDE.md`, `.github/CODEOWNERS`, updated README
 - Fixed `dayYmdHs` minute zero-padding in `nextMonday()`
