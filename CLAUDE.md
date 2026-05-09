@@ -10,6 +10,7 @@ yarn build        # Build to dist/
 yarn build:netlify  # Build to netlify/ (root) and netlify/markdown/ (sub-path)
 yarn preview      # Preview the production build locally
 yarn format       # Prettier on all files
+yarn format:check  # Prettier check (read-only — fails if any file needs reformatting)
 yarn lint         # ESLint check on src/ (no auto-fix — fails on any error)
 yarn lint:fix     # ESLint with auto-fix on src/
 ```
