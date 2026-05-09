@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { cleanHtml } from "../src/utils/markdown";
+import {
+  cleanHtml,
+  markdownToHtml,
+  htmlToMarkdown,
+} from "../src/utils/markdown";
 
 describe("cleanHtml", () => {
   it("passes through safe block elements unchanged", () => {
@@ -54,5 +58,53 @@ describe("cleanHtml", () => {
 
   it("handles empty string", () => {
     expect(cleanHtml("")).toBe("");
+  });
+});
+
+describe("markdownToHtml", () => {
+  it("converts a paragraph", () => {
+    expect(markdownToHtml("Hello world")).toBe("<p>Hello world</p>");
+  });
+
+  it("converts a heading", () => {
+    expect(markdownToHtml("# Hello")).toBe("<h1>Hello</h1>");
+  });
+
+  it("converts single newlines to <br> (breaks: true)", () => {
+    expect(markdownToHtml("line one\nline two")).toBe(
+      "<p>line one<br />line two</p>",
+    );
+  });
+
+  it("converts GFM strikethrough (gfm: true)", () => {
+    expect(markdownToHtml("~~deleted~~")).toBe("<p><del>deleted</del></p>");
+  });
+
+  it("sanitizes script tags in output", () => {
+    expect(markdownToHtml('<script>alert("xss")</script>')).toBe("");
+  });
+});
+
+describe("htmlToMarkdown", () => {
+  it("converts a paragraph", () => {
+    expect(htmlToMarkdown("<p>Hello world</p>")).toBe("Hello world");
+  });
+
+  it("converts a heading", () => {
+    expect(htmlToMarkdown("<h3>Hello</h3>")).toBe("### Hello");
+  });
+
+  it("converts bold", () => {
+    expect(htmlToMarkdown("<strong>bold</strong>")).toBe("**bold**");
+  });
+
+  it("converts italic", () => {
+    expect(htmlToMarkdown("<em>italic</em>")).toBe("_italic_");
+  });
+
+  it("converts a link", () => {
+    expect(htmlToMarkdown('<a href="https://example.com">link</a>')).toBe(
+      "[link](https://example.com)",
+    );
   });
 });
