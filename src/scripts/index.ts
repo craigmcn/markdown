@@ -1,11 +1,4 @@
-import showdown from "showdown";
-import { cleanHtml } from "../utils/markdown";
-
-const converter = new showdown.Converter({
-  simpleLineBreaks: true,
-  strikethrough: true,
-  tables: true,
-});
+import { cleanHtml, markdownToHtml, htmlToMarkdown } from "../utils/markdown";
 
 const main = document.querySelector("main.grid") as HTMLElement;
 const preview = document.getElementById("preview") as HTMLElement;
@@ -37,8 +30,7 @@ markdownEditor.session.selection.on("changeCursor", () => {
 const markdownEditorChange = () => {
   if (document.activeElement?.parentElement?.id === "markdown-editor") {
     const markdownValue = markdownEditor.getValue();
-    const convertedHtml = converter.makeHtml(markdownValue);
-    const clean = cleanHtml(convertedHtml);
+    const clean = markdownToHtml(markdownValue);
     previewContent.innerHTML = clean;
     htmlEditor.setValue(clean);
     htmlEditor.clearSelection();
@@ -55,7 +47,7 @@ htmlEditor.session.selection.on("changeCursor", () => {
 const htmlEditorChange = () => {
   if (document.activeElement?.parentElement?.id === "html-editor") {
     const htmlValue = htmlEditor.getValue();
-    const convertedMarkdown = converter.makeMarkdown(htmlValue);
+    const convertedMarkdown = htmlToMarkdown(htmlValue);
     previewContent.innerHTML = cleanHtml(htmlValue);
     markdownEditor.setValue(convertedMarkdown);
     markdownEditor.clearSelection();

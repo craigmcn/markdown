@@ -36,8 +36,9 @@ The post date defaults to the next Monday at 11:45; the year fields default to t
 ## Stack
 
 - Vanilla [TypeScript](https://www.typescriptlang.org/) built with [Vite](https://vitejs.dev/) 8 (multi-page)
-- [showdown](https://github.com/showdownjs/showdown) for Markdown ↔ HTML conversion
-- [sanitize-html](https://github.com/apostrophecms/sanitize-html) for HTML sanitisation
+- [marked](https://marked.js.org/) for Markdown → HTML conversion
+- [turndown](https://github.com/mixmark-io/turndown) for HTML → Markdown conversion
+- [sanitize-html](https://github.com/apostrophecms/sanitize-html) for HTML sanitization
 - [Ace editor](https://ace.c9.io/) (loaded from CDN) for the editor panels
 
 ## Development
@@ -54,7 +55,7 @@ yarn coverage   # Vitest + coverage report
 
 ## Testing
 
-Vitest. 23 unit tests covering `cleanHtml` sanitization logic and the Music Monday `nextMonday()` date calculation and `template.text()` output.
+Vitest. 33 unit tests covering `cleanHtml` sanitization, `markdownToHtml` / `htmlToMarkdown` conversion, and the Music Monday `nextMonday()` date calculation and `template.text()` output.
 
 ```bash
 yarn test       # watch mode

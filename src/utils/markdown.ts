@@ -1,4 +1,9 @@
 import sanitize from "sanitize-html";
+import { marked } from "marked";
+import TurndownService from "turndown";
+
+marked.use({ breaks: true, gfm: true });
+const turndown = new TurndownService();
 
 export const cleanHtml = (html: string): string => {
   return sanitize(html, {
@@ -11,3 +16,8 @@ export const cleanHtml = (html: string): string => {
     .trim()
     .replace(/&amp;nbsp;/g, "&nbsp;");
 };
+
+export const markdownToHtml = (markdown: string): string =>
+  cleanHtml(marked.parse(markdown) as string);
+
+export const htmlToMarkdown = (html: string): string => turndown.turndown(html);
