@@ -25,7 +25,7 @@ yarn coverage     # Vitest with v8 coverage report
 
 A vanilla TypeScript multi-page app (Vite 8) with two pages:
 
-- **`index.html`** — Markdown Parser: a three-panel editor (Markdown input → HTML output → rendered preview) using the [Ace editor](https://ace.c9.io/) loaded from CDN, [showdown](https://github.com/showdownjs/showdown) for Markdown→HTML conversion, and [sanitize-html](https://github.com/apostrophecms/sanitize-html) for sanitisation.
+- **`index.html`** — Markdown Parser: a three-panel editor (Markdown input → HTML output → rendered preview) using the [Ace editor](https://ace.c9.io/) loaded from CDN, [marked](https://marked.js.org/) for Markdown→HTML conversion, [turndown](https://github.com/mixmark-io/turndown) for HTML→Markdown conversion, and [sanitize-html](https://github.com/apostrophecms/sanitize-html) for sanitization.
 - **`music-monday.html`** — Music Monday Markdown Generator: a form that generates Jekyll-compatible frontmatter and post body Markdown for a recurring blog series.
 
 **Key source locations:**
