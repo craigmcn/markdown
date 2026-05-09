@@ -13,9 +13,9 @@ export const nextMonday = (): MusicMondayDates => {
   day.setHours(11);
   day.setMinutes(45);
   day.setSeconds(0);
-  const dayArray = day.toString().split(' ');
-  const dayYmd = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}`;
-  const dayYmdHs = `${dayYmd} ${String(day.getHours()).padStart(2, '0')}:${String(day.getMinutes()).padStart(2, '0')}`;
+  const dayArray = day.toString().split(" ");
+  const dayYmd = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+  const dayYmdHs = `${dayYmd} ${String(day.getHours()).padStart(2, "0")}:${String(day.getMinutes()).padStart(2, "0")}`;
   const dayYmdT = `${dayYmd}T${dayArray[4]}${dayArray[5].substring(3)}`;
   return { dayYmd, dayYmdHs, dayYmdT };
 };
@@ -43,24 +43,24 @@ export interface MusicMondayTemplate {
 }
 
 export const template: MusicMondayTemplate = {
-  title: 'TITLE',
-  titleFriendly: 'title-friendly',
-  titleUrl: 'http://example.com',
-  postDateYmd: 'YYYY-MM-DD',
-  postDateAtom: 'YYYY-MM-DDTHH:MM:SSO',
+  title: "TITLE",
+  titleFriendly: "title-friendly",
+  titleUrl: "http://example.com",
+  postDateYmd: "YYYY-MM-DD",
+  postDateAtom: "YYYY-MM-DDTHH:MM:SSO",
   originalYear: new Date().getFullYear(),
-  originalArtist: 'ORIGINAL ARTIST',
-  originalArtistUrl: 'http://example.com',
-  originalAlbum: 'ORIGINAL ALBUM',
-  originalAlbumUrl: 'http://example.com',
-  originalVideoId: 'ORIGINAL_ID',
+  originalArtist: "ORIGINAL ARTIST",
+  originalArtistUrl: "http://example.com",
+  originalAlbum: "ORIGINAL ALBUM",
+  originalAlbumUrl: "http://example.com",
+  originalVideoId: "ORIGINAL_ID",
   coverYear: new Date().getFullYear(),
-  coverArtist: 'COVER ARTIST',
-  coverArtistUrl: 'http://example.com',
-  coverAlbum: 'COVER ALBUM',
-  coverAlbumUrl: 'http://example.com',
-  coverVideoId: 'COVER_ID',
-  complementaryText: '',
+  coverArtist: "COVER ARTIST",
+  coverArtistUrl: "http://example.com",
+  coverAlbum: "COVER ALBUM",
+  coverAlbumUrl: "http://example.com",
+  coverVideoId: "COVER_ID",
+  complementaryText: "",
   text() {
     return `---
 ${this.postDateYmd}-${this.titleFriendly}.md

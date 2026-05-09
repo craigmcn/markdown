@@ -5,7 +5,7 @@ dist
 tmp
 netlify
 coverage
+tsconfig.tsbuildinfo
 .yarn/cache
 .yarn/install-state.gz
-.vscode/*
-!.vscode/settings.json
+.vscode/
