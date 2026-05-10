@@ -50,7 +50,11 @@ ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Ru
 ## Key decisions
 
 - **`ace` from CDN** — Ace is not bundled; `src/types/globals.d.ts` declares a minimal global interface covering the methods actually used (`edit`, `getValue`, `setValue`, `clearSelection`, `resize`, `session.selection.on`).
-- **`src/utils/` extracted for testability** — `cleanHtml`, `markdownToHtml`, `htmlToMarkdown`, and the music-monday logic live in `src/utils/` rather than inline in the script files so they can be unit-tested without a DOM or Ace dependency.
+- **`src/utils/` extracted for testability** — `cleanHtml`, `markdownToHtml`, `htmlToMarkdown`, and the music-monday logic live in `src/utils/` rather than inline in the script files so they can be unit-tested without a DOM or Ace dependency. `marked` and `TurndownService` are initialized as module-level singletons in `markdown.ts` so the singleton is shared and testable.
+- **`marked` + `turndown` instead of `showdown`** — `showdown` had an unfixed ReDoS vulnerability (Dependabot alert, no upstream patch). `marked` handles MD→HTML (`breaks: true, gfm: true` maps 1:1 to the old `simpleLineBreaks`/`strikethrough`/`tables` options); `turndown` handles HTML→MD. `marked.parse()` is cast `as string` because the return type is `string | Promise<string>` when no async extensions are configured.
+- **Column resize uses `clientX`, not `offsetX`** — `offsetX` is relative to the event _target_, which bubbles from Ace editor children and gives wrong results. `clientX >= markdown.getBoundingClientRect().right - HANDLE_SIZE` is viewport-relative and reliable regardless of which child element fired the event.
+- **Column resize guarded by `numAreas === 2`** — `getComputedStyle(main).gridTemplateAreas.split('" ').length` returns 2 on desktop (two rows) and 3 on mobile (three rows). The handle and its JS logic are desktop-only; a window-resize handler clears the inline `gridTemplateColumns` when returning to mobile so the stacked CSS layout is not overridden.
+- **CSS custom properties in `:root`** — 10 design tokens (`--handle-size`, `--handle-bg`, `--handle-bg-hover`, `--border-color`, `--text-color`, `--bg-subtle`, `--brand-color`, `--header-text`, `--header-bg`, `--header-border`) replace all repeated literal values. `HANDLE_SIZE` in `index.ts` must be kept in sync with `--handle-size` in `index.css`.
 - **`base: './'`** — Both the local `dist/` build and the two Netlify builds use relative asset paths, so the same config works when served from the domain root or the `/markdown/` sub-path.
 - **No React plugin** — This is a vanilla TypeScript app; `vite.config.ts` has no `@vitejs/plugin-react`.
 - **Multi-page input** — `vite.config.ts` uses `rollupOptions.input` with both `index.html` and `music-monday.html` as named entry points.
@@ -68,16 +72,21 @@ PR #58 merged into `main`. Branch protection applied.
 - Switched npm → Yarn 4; deleted `package-lock.json`; bumped Node to v24
 - Migrated ESLint 8 → ESLint 9 flat config; added Prettier
 - Converted JS → TypeScript; extracted `src/utils/` for testability
-- Added 23 Vitest unit tests — all passing, 100% statement/line coverage (33 as of PR #62)
+- Added 23 Vitest unit tests — all passing, 100% statement/line coverage
 - Added `.github/workflows/test.yml` (lint → build → coverage)
 - Added `CLAUDE.md`, `.github/CODEOWNERS`, updated README
 - Fixed `dayYmdHs` minute zero-padding in `nextMonday()`
 - Fixed slug double-dash collapse: `replace('--','-')` → `replace(/-{2,}/g, '-')`
 - PR #58 merged; CI passed
 - Branch protection on `main`: require PR, 1 approval (owner bypass for `@craigmcn`), `test` status check required, stale reviews dismissed, force push + deletion blocked
+- **PR #60** — Prettier reset to `{}`, Husky pre-commit hook, Yarn 4.14.1, `.editorconfig`, `tsconfig.tsbuildinfo` gitignored, `gulpfile.js` deleted, `.vscode/` gitignored
+- **PR #61** — `format:check` script + CI step; CI order: format:check → lint → build → coverage
+- **PR #62** — Replaced `showdown` (unfixed ReDoS) with `marked` + `turndown`; extracted `markdownToHtml`/`htmlToMarkdown` to `src/utils/`; 33 unit tests; `yarn test:run` in pre-commit hook
+- **PR #63** — Vertical resize handle between Markdown/HTML panels (desktop, `ew-resize`, 20–80% clamps); 10 CSS custom properties in `:root`
 
 ### Known follow-up items (non-blocking)
 
 - Use American English in any future source comments (`sanitize` / `sanitization`, not `sanitise`)
-- Implement vertical panel resizing (between Markdown and HTML panels), consistent with the existing horizontal resize handle on the Preview panel
-- Review CSS for consistency with AlbertCSS — header fonts appear incorrect
+- **CSS review** — header fonts appear inconsistent with AlbertCSS; app does not load AlbertCSS (no `<link>` in `index.html`) — needs investigation before changes
+- **`new/` folder** at repo root — untracked leftover from pre-Vite era (contains only `node_modules`); safe to delete
+- **`user-select: none` during drag** — neither resize handle sets it; text in Ace editors may select while dragging (low priority)
