@@ -14,9 +14,22 @@ html {
   padding: 0;
 }
 
+:root {
+  --text-color: #222;
+  --brand-color: #005b99;
+  --header-bg: #ebebef;
+  --header-border: #c3c3c7;
+  --header-text: #4a4a4e;
+  --bg-subtle: #f8f8f8;
+  --border-color: #dfdfdf;
+  --handle-bg: rgba(223, 223, 223, 0.2);
+  --handle-bg-hover: rgba(223, 223, 223, 0.8);
+  --handle-size: 4px;
+}
+
 /* https://meta.stackexchange.com/questions/364048/we-are-switching-to-system-fonts-on-may-10-2021 */
 body {
-  color: #222;
+  color: var(--text-color);
   font-family:
     system-ui,
     -apple-system,
@@ -41,7 +54,7 @@ button {
   background-color: transparent;
   border: none;
   border-radius: 0.25em;
-  color: #005b99;
+  color: var(--brand-color);
   cursor: pointer;
   display: inline-block;
   font: inherit;
@@ -61,16 +74,16 @@ button:focus {
 }
 
 .header {
-  background-color: #ebebef;
-  border-bottom: 1px solid #c3c3c7;
-  color: #4a4a4e;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  color: var(--header-text);
   padding: 0.5rem 1rem;
 }
 
 .subheader {
   margin-bottom: 0;
   padding: 0 1rem;
-  border-bottom: 1px solid #f8f8f8;
+  border-bottom: 1px solid var(--bg-subtle);
 }
 
 .header h1,
@@ -80,7 +93,7 @@ button:focus {
 }
 
 .brand > a {
-  color: #4a4a4e;
+  color: var(--header-text);
   text-decoration: none;
 }
 
@@ -93,7 +106,7 @@ button:focus {
 }
 
 .brand svg .np__txt {
-  fill: #005b99;
+  fill: var(--brand-color);
 }
 
 .grid {
@@ -115,12 +128,13 @@ button:focus {
 
 #markdown,
 #html {
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: 1px solid var(--border-color);
 }
 
 #markdown {
-  border-right: 1px solid #dfdfdf;
+  border-right: 1px solid var(--border-color);
   grid-area: markdown;
+  position: relative;
 }
 
 #html {
@@ -140,12 +154,11 @@ button:focus {
 }
 
 #preview > .subheader::before {
-  background-color: rgba(223, 223, 223, 0.2);
+  background-color: var(--handle-bg);
   top: 0;
   content: "";
   cursor: ns-resize;
-  height: 4px;
-  /* resize handle size, used in index.js */
+  height: var(--handle-size);
   margin-left: -1rem;
   /* reset .subheader padding */
   position: absolute;
@@ -154,7 +167,7 @@ button:focus {
 }
 
 #preview > .subheader:hover::before {
-  background-color: rgba(223, 223, 223, 0.8);
+  background-color: var(--handle-bg-hover);
 }
 
 #preview-content {
@@ -203,7 +216,7 @@ button:focus {
 }
 
 #preview-content table tbody tr:nth-child(2n) {
-  background-color: #f8f8f8;
+  background-color: var(--bg-subtle);
 }
 
 #preview-content ol,
@@ -212,7 +225,7 @@ button:focus {
 }
 
 #preview-content blockquote {
-  border-left: 1px solid #222;
+  border-left: 1px solid var(--text-color);
   padding-left: 0.5rem;
 }
 
@@ -226,13 +239,13 @@ button:focus {
 }
 
 #preview-content pre {
-  background-color: #f8f8f8;
+  background-color: var(--bg-subtle);
   padding: 0.5rem;
   width: 100%;
 }
 
 #preview-content pre code {
-  color: #222;
+  color: var(--text-color);
   font-size: 0.875rem;
 }
 
@@ -258,6 +271,22 @@ button:focus {
 
   #preview {
     max-height: 80vh;
+  }
+
+  #markdown::after {
+    background-color: var(--handle-bg);
+    content: "";
+    cursor: ew-resize;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: var(--handle-size);
+    z-index: 10;
+  }
+
+  #markdown:hover::after {
+    background-color: var(--handle-bg-hover);
   }
 }
 
