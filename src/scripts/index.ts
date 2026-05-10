@@ -61,7 +61,7 @@ let previewTop: number | undefined;
 let touchDiff: number | undefined;
 let columnX: number | undefined;
 let columnTouchDiff: number | undefined;
-const HANDLE_SIZE = 4; // set in CSS
+const HANDLE_SIZE = 4; // must match --handle-size in index.css
 
 const setPreviewHeight = (e: Event) => {
   if (e.type === "mousemove") previewTop = (e as MouseEvent).clientY;
