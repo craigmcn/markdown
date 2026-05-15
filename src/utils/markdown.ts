@@ -12,6 +12,19 @@ export const cleanHtml = (html: string): string => {
       { "*": ["class", "style"] },
       sanitize.defaults.allowedAttributes,
     ),
+    // xmp and plaintext are raw-text elements whose content is passed through
+    // unescaped by sanitize-html, enabling XSS bypass (CVE/Dependabot #94).
+    // Adding them here causes the entire tag and its contents to be dropped.
+    // Defaults are: style, script, textarea, option, noscript.
+    nonTextTags: [
+      "style",
+      "script",
+      "textarea",
+      "option",
+      "noscript",
+      "xmp",
+      "plaintext",
+    ],
   })
     .trim()
     .replace(/&amp;nbsp;/g, "&nbsp;");
