@@ -59,6 +59,16 @@ describe("cleanHtml", () => {
   it("handles empty string", () => {
     expect(cleanHtml("")).toBe("");
   });
+
+  it("drops xmp tag and its contents entirely", () => {
+    expect(cleanHtml("<xmp><script>alert(1)</script></xmp>")).toBe("");
+  });
+
+  it("drops plaintext tag and its contents entirely", () => {
+    expect(cleanHtml("<plaintext><script>alert(1)</script></plaintext>")).toBe(
+      "",
+    );
+  });
 });
 
 describe("markdownToHtml", () => {
