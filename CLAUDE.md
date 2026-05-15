@@ -60,6 +60,7 @@ ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Ru
 - **Multi-page input** — `vite.config.ts` uses `rollupOptions.input` with both `index.html` and `music-monday.html` as named entry points.
 - **Standalone Yarn 4 project** — an empty `yarn.lock` is required at the repo root; without it Yarn 4 walks up and finds a `package.json` at `~/` and errors with "not part of project".
 - **`MusicMondayTemplate.originalYear` / `coverYear` typed `string | number`** — the form returns strings on input but the template initialises them as numbers; widening the type avoids a cast without changing runtime behaviour.
+- **`nonTextTags` hardcoded in `cleanHtml`** — `xmp` and `plaintext` are raw-text elements whose contents `htmlparser2` does not re-parse; `sanitize-html`'s default `discard` mode emits them unescaped, enabling XSS bypass (Dependabot #94, CVSS 9.3). Both are added to `nonTextTags` so their entire contents are dropped. The list is hardcoded because `sanitize.defaults.nonTextTags` is not exposed by the `IDefaults` type.
 - **Branch coverage intentionally partial** — `nextMonday()`'s day-of-week ternary can only hit one branch per test run without mocking `Date`. Statement/function/line coverage is 100%; branch coverage is left as-is.
 
 ## Modernization status — COMPLETE (2026-04-30)
@@ -83,6 +84,7 @@ PR #58 merged into `main`. Branch protection applied.
 - **PR #61** — `format:check` script + CI step; CI order: format:check → lint → build → coverage
 - **PR #62** — Replaced `showdown` (unfixed ReDoS) with `marked` + `turndown`; extracted `markdownToHtml`/`htmlToMarkdown` to `src/utils/`; 33 unit tests; `yarn test:run` in pre-commit hook
 - **PR #63** — Vertical resize handle between Markdown/HTML panels (desktop, `ew-resize`, 20–80% clamps); 10 CSS custom properties in `:root`
+- **PR #64** — Upgraded `sanitize-html` `2.17.3` → `2.17.4` (critical XSS, Dependabot #94); added `xmp` and `plaintext` to `nonTextTags` as defense-in-depth; 35 unit tests (2 regression tests added)
 
 ### Known follow-up items (non-blocking)
 
