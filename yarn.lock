@@ -1843,6 +1843,7 @@ __metadata:
     sanitize-html: "npm:^2.17.4"
     turndown: "npm:^7.2.4"
     typescript: "npm:^5.8.3"
+    vite: "npm:^8.0.16"
     vitest: "npm:^4.1.5"
   languageName: unknown
   linkType: soft
@@ -2450,7 +2451,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0":
+"vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0, vite@npm:^8.0.16":
   version: 8.0.16
   resolution: "vite@npm:8.0.16"
   dependencies:
