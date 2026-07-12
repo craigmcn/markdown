@@ -89,6 +89,4 @@ PR #58 merged into `main`. Branch protection applied.
 ### Known follow-up items (non-blocking)
 
 - Use American English in any future source comments (`sanitize` / `sanitization`, not `sanitise`)
-- **CSS review** — header fonts appear inconsistent with AlbertCSS; app does not load AlbertCSS (no `<link>` in `index.html`) — needs investigation before changes
-- **`new/` folder** at repo root — untracked leftover from pre-Vite era (contains only `node_modules`); safe to delete
-- **`user-select: none` during drag** — neither resize handle sets it; text in Ace editors may select while dragging (low priority)
+- Remaining items (CSS/AlbertCSS review, leftover `new/` folder, drag `user-select`, GitHub Actions bump, axe tooling, Playwright E2E) tracked as issues in the [markdown GitHub Project](https://github.com/users/craigmcn/projects/6)
