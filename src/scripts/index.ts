@@ -123,24 +123,31 @@ const setColumnWidths = (e: Event) => {
   htmlEditor.resize();
 };
 
+const startDragging = () => {
+  document.body.style.userSelect = "none";
+};
+
+const stopDragging = () => {
+  document.body.style.userSelect = "";
+  document.removeEventListener("mousemove", setPreviewHeight, false);
+  document.removeEventListener("mousemove", setColumnWidths, false);
+  document.removeEventListener("touchmove", setPreviewHeight, false);
+  document.removeEventListener("touchmove", setColumnWidths, false);
+};
+
 preview.querySelector(".subheader")?.addEventListener(
   "mousedown",
   (e: Event) => {
     if ((e as MouseEvent).offsetY <= HANDLE_SIZE) {
+      startDragging();
       document.addEventListener("mousemove", setPreviewHeight, false);
     }
   },
   false,
 );
 
-document.addEventListener(
-  "mouseup",
-  () => {
-    document.removeEventListener("mousemove", setPreviewHeight, false);
-    document.removeEventListener("mousemove", setColumnWidths, false);
-  },
-  false,
-);
+document.addEventListener("mouseup", stopDragging, false);
+window.addEventListener("blur", stopDragging, false);
 
 preview.querySelector(".subheader")?.addEventListener(
   "touchstart",
@@ -148,19 +155,14 @@ preview.querySelector(".subheader")?.addEventListener(
     touchDiff =
       (e as TouchEvent).touches[0].clientY -
       previewHeader.getBoundingClientRect().top;
+    startDragging();
     document.addEventListener("touchmove", setPreviewHeight, false);
   },
   false,
 );
 
-document.addEventListener(
-  "touchend",
-  () => {
-    document.removeEventListener("touchmove", setPreviewHeight, false);
-    document.removeEventListener("touchmove", setColumnWidths, false);
-  },
-  false,
-);
+document.addEventListener("touchend", stopDragging, false);
+document.addEventListener("touchcancel", stopDragging, false);
 
 markdown.addEventListener(
   "mousedown",
@@ -172,6 +174,7 @@ markdown.addEventListener(
       (e as MouseEvent).clientX >=
         markdown.getBoundingClientRect().right - HANDLE_SIZE
     ) {
+      startDragging();
       document.addEventListener("mousemove", setColumnWidths, false);
     }
   },
@@ -188,6 +191,7 @@ markdown.addEventListener(
     const markdownRect = markdown.getBoundingClientRect();
     if (touch.clientX >= markdownRect.right - HANDLE_SIZE) {
       columnTouchDiff = touch.clientX - markdownRect.right;
+      startDragging();
       document.addEventListener("touchmove", setColumnWidths, false);
     }
   },
