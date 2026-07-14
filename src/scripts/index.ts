@@ -129,6 +129,10 @@ const startDragging = () => {
 
 const stopDragging = () => {
   document.body.style.userSelect = "";
+  document.removeEventListener("mousemove", setPreviewHeight, false);
+  document.removeEventListener("mousemove", setColumnWidths, false);
+  document.removeEventListener("touchmove", setPreviewHeight, false);
+  document.removeEventListener("touchmove", setColumnWidths, false);
 };
 
 preview.querySelector(".subheader")?.addEventListener(
@@ -142,15 +146,8 @@ preview.querySelector(".subheader")?.addEventListener(
   false,
 );
 
-document.addEventListener(
-  "mouseup",
-  () => {
-    stopDragging();
-    document.removeEventListener("mousemove", setPreviewHeight, false);
-    document.removeEventListener("mousemove", setColumnWidths, false);
-  },
-  false,
-);
+document.addEventListener("mouseup", stopDragging, false);
+window.addEventListener("blur", stopDragging, false);
 
 preview.querySelector(".subheader")?.addEventListener(
   "touchstart",
@@ -164,15 +161,8 @@ preview.querySelector(".subheader")?.addEventListener(
   false,
 );
 
-document.addEventListener(
-  "touchend",
-  () => {
-    stopDragging();
-    document.removeEventListener("touchmove", setPreviewHeight, false);
-    document.removeEventListener("touchmove", setColumnWidths, false);
-  },
-  false,
-);
+document.addEventListener("touchend", stopDragging, false);
+document.addEventListener("touchcancel", stopDragging, false);
 
 markdown.addEventListener(
   "mousedown",
