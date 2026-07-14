@@ -123,10 +123,19 @@ const setColumnWidths = (e: Event) => {
   htmlEditor.resize();
 };
 
+const startDragging = () => {
+  document.body.style.userSelect = "none";
+};
+
+const stopDragging = () => {
+  document.body.style.userSelect = "";
+};
+
 preview.querySelector(".subheader")?.addEventListener(
   "mousedown",
   (e: Event) => {
     if ((e as MouseEvent).offsetY <= HANDLE_SIZE) {
+      startDragging();
       document.addEventListener("mousemove", setPreviewHeight, false);
     }
   },
@@ -136,6 +145,7 @@ preview.querySelector(".subheader")?.addEventListener(
 document.addEventListener(
   "mouseup",
   () => {
+    stopDragging();
     document.removeEventListener("mousemove", setPreviewHeight, false);
     document.removeEventListener("mousemove", setColumnWidths, false);
   },
@@ -148,6 +158,7 @@ preview.querySelector(".subheader")?.addEventListener(
     touchDiff =
       (e as TouchEvent).touches[0].clientY -
       previewHeader.getBoundingClientRect().top;
+    startDragging();
     document.addEventListener("touchmove", setPreviewHeight, false);
   },
   false,
@@ -156,6 +167,7 @@ preview.querySelector(".subheader")?.addEventListener(
 document.addEventListener(
   "touchend",
   () => {
+    stopDragging();
     document.removeEventListener("touchmove", setPreviewHeight, false);
     document.removeEventListener("touchmove", setColumnWidths, false);
   },
@@ -172,6 +184,7 @@ markdown.addEventListener(
       (e as MouseEvent).clientX >=
         markdown.getBoundingClientRect().right - HANDLE_SIZE
     ) {
+      startDragging();
       document.addEventListener("mousemove", setColumnWidths, false);
     }
   },
@@ -188,6 +201,7 @@ markdown.addEventListener(
     const markdownRect = markdown.getBoundingClientRect();
     if (touch.clientX >= markdownRect.right - HANDLE_SIZE) {
       columnTouchDiff = touch.clientX - markdownRect.right;
+      startDragging();
       document.addEventListener("touchmove", setColumnWidths, false);
     }
   },
