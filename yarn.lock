@@ -1889,6 +1889,7 @@ __metadata:
     husky: "npm:^9.1.7"
     jsdom: "npm:^29.1.0"
     marked: "npm:^18.0.3"
+    playwright-core: "npm:1.61.1"
     prettier: "npm:^3.8.3"
     sanitize-html: "npm:^2.17.4"
     turndown: "npm:^7.2.4"
