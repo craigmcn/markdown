@@ -21,6 +21,15 @@ const htmlEditor = ace.edit("html-editor", {
   wrap: true,
 });
 
+// Ace renders a hidden <textarea> for input capture; give it an accessible
+// name since it has no visible <label>.
+document
+  .querySelector("#markdown-editor .ace_text-input")
+  ?.setAttribute("aria-label", "Markdown input");
+document
+  .querySelector("#html-editor .ace_text-input")
+  ?.setAttribute("aria-label", "HTML input");
+
 markdownEditor.session.selection.on("changeSelection", () => {
   markdownEditorChange();
 });

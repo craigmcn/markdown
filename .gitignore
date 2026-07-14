@@ -9,3 +9,6 @@ tsconfig.tsbuildinfo
 .yarn/cache
 .yarn/install-state.gz
 .vscode/
+playwright-report/
+test-results/
+playwright/.cache/

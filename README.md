@@ -63,6 +63,12 @@ yarn test:run   # single pass
 yarn coverage   # single pass with coverage report
 ```
 
+Playwright covers both pages end-to-end (Markdown ⇄ HTML conversion, the Music Monday form) plus an automated accessibility check of each page with [`@axe-core/playwright`](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright).
+
+```bash
+yarn test:e2e   # Playwright, headless Chromium
+```
+
 ## Deployment
 
 Deployed on Netlify. The `build:netlify` script runs two sequential Vite builds — one to `netlify/` (served at the domain root) and one to `netlify/markdown/` (served at the `/markdown/` sub-path).
