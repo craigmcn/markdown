@@ -74,6 +74,9 @@ button:focus {
 }
 
 .header {
+  /* overrides AlbertCSS's grid-based .header layout, which this app's
+     header markup (no grid-area-assigned children) doesn't match */
+  display: block;
   background-color: var(--header-bg);
   border-bottom: 1px solid var(--header-border);
   color: var(--header-text);
