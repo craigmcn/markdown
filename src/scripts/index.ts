@@ -1,6 +1,6 @@
 import { cleanHtml, markdownToHtml, htmlToMarkdown } from "../utils/markdown";
 
-const main = document.querySelector("main.grid") as HTMLElement;
+const main = document.querySelector("main.app-grid") as HTMLElement;
 const markdown = document.getElementById("markdown") as HTMLElement;
 const preview = document.getElementById("preview") as HTMLElement;
 const previewHeader = preview.querySelector(".subheader") as HTMLElement;
