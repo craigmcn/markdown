@@ -42,6 +42,22 @@ body {
   position: relative;
 }
 
+#markdown::after {
+  background-color: var(--handle-bg);
+  bottom: 0;
+  content: "";
+  cursor: ns-resize;
+  height: var(--handle-size);
+  left: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+#markdown:hover::after {
+  background-color: var(--handle-bg-hover);
+}
+
 #html {
   grid-area: html;
 }
