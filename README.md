@@ -5,7 +5,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/2ba6dca8-8cdd-41e1-b466-cb6e875d5e0e/deploy-status)](https://app.netlify.com/sites/hardcore-wiles-1aa5f7/deploys)
 [![Test](https://github.com/craigmcn/markdown/actions/workflows/test.yml/badge.svg)](https://github.com/craigmcn/markdown/actions/workflows/test.yml)
 
-Two small tools for working with Markdown.
+A Markdown parser tool.
 
 ---
 
@@ -21,21 +21,9 @@ HTML output is sanitized with [sanitize-html](https://github.com/apostrophecms/s
 
 ---
 
-## Music Monday Markdown Generator
-
-Fills in a form to generate a Jekyll-compatible front matter block and post body for a recurring Music Monday blog post.
-
-- Fill in the **Post date**, **Title**, **Artist**, **Album**, **Year**, and **Video** fields for both the original song and the cover version.
-- The **Markdown output** panel on the right updates live as you type.
-- Copy the output and paste it into a new Jekyll post file.
-
-The post date defaults to the next Monday at 11:45; the year fields default to the current year.
-
----
-
 ## Stack
 
-- Vanilla [TypeScript](https://www.typescriptlang.org/) built with [Vite](https://vitejs.dev/) 8 (multi-page)
+- Vanilla [TypeScript](https://www.typescriptlang.org/) built with [Vite](https://vitejs.dev/) 8
 - [marked](https://marked.js.org/) for Markdown → HTML conversion
 - [turndown](https://github.com/mixmark-io/turndown) for HTML → Markdown conversion
 - [sanitize-html](https://github.com/apostrophecms/sanitize-html) for HTML sanitization
@@ -55,7 +43,7 @@ yarn coverage   # Vitest + coverage report
 
 ## Testing
 
-Vitest. 33 unit tests covering `cleanHtml` sanitization, `markdownToHtml` / `htmlToMarkdown` conversion, and the Music Monday `nextMonday()` date calculation and `template.text()` output.
+Vitest. Unit tests covering `cleanHtml` sanitization and `markdownToHtml` / `htmlToMarkdown` conversion.
 
 ```bash
 yarn test       # watch mode
@@ -63,7 +51,7 @@ yarn test:run   # single pass
 yarn coverage   # single pass with coverage report
 ```
 
-Playwright covers both pages end-to-end (Markdown ⇄ HTML conversion, the Music Monday form) plus an automated accessibility check of each page with [`@axe-core/playwright`](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright).
+Playwright covers the page end-to-end (Markdown ⇄ HTML conversion) plus an automated accessibility check with [`@axe-core/playwright`](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright).
 
 ```bash
 yarn test:e2e   # Playwright, headless Chromium
