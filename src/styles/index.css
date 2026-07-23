@@ -42,6 +42,24 @@ body {
   position: relative;
 }
 
+#markdown::after {
+  background-color: var(--handle-bg);
+  bottom: 0;
+  content: "";
+  cursor: ns-resize;
+  height: var(--handle-size);
+  left: 0;
+  position: absolute;
+  right: auto;
+  top: auto;
+  width: 100%;
+  z-index: 10;
+}
+
+#markdown:hover::after {
+  background-color: var(--handle-bg-hover);
+}
+
 #html {
   grid-area: html;
 }
@@ -180,9 +198,11 @@ body {
 
   #markdown::after {
     background-color: var(--handle-bg);
+    bottom: auto;
     content: "";
     cursor: ew-resize;
     height: 100%;
+    left: auto;
     position: absolute;
     right: 0;
     top: 0;

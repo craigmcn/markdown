@@ -70,6 +70,8 @@ let previewTop: number | undefined;
 let touchDiff: number | undefined;
 let columnX: number | undefined;
 let columnTouchDiff: number | undefined;
+let rowY: number | undefined;
+let rowTouchDiff: number | undefined;
 const HANDLE_SIZE = 4; // must match --handle-size in index.css
 
 const setPreviewHeight = (e: Event) => {
@@ -132,6 +134,37 @@ const setColumnWidths = (e: Event) => {
   htmlEditor.resize();
 };
 
+const setMarkdownHeight = (e: Event) => {
+  if (e.type === "mousemove") rowY = (e as MouseEvent).clientY;
+  if (e.type === "touchmove")
+    rowY = (e as TouchEvent).touches[0].clientY - (rowTouchDiff ?? 0);
+
+  if (rowY !== undefined) {
+    const mainRect = main.getBoundingClientRect();
+    const totalHeight = mainRect.height;
+    const newHeight = rowY - mainRect.top;
+    const minHeight = totalHeight * 0.2;
+    const maxHeight = totalHeight * 0.8;
+    const setHeight =
+      newHeight > maxHeight
+        ? maxHeight
+        : newHeight < minHeight
+          ? minHeight
+          : newHeight;
+
+    if (setHeight !== newHeight) {
+      rowY = mainRect.top + setHeight;
+    }
+
+    const previewRowHeight =
+      getComputedStyle(main).gridTemplateRows.split(" ")[2];
+    main.style.gridTemplateRows = `${setHeight}px auto ${previewRowHeight}`;
+  }
+
+  markdownEditor.resize();
+  htmlEditor.resize();
+};
+
 const startDragging = () => {
   document.body.style.userSelect = "none";
 };
@@ -140,8 +173,10 @@ const stopDragging = () => {
   document.body.style.userSelect = "";
   document.removeEventListener("mousemove", setPreviewHeight, false);
   document.removeEventListener("mousemove", setColumnWidths, false);
+  document.removeEventListener("mousemove", setMarkdownHeight, false);
   document.removeEventListener("touchmove", setPreviewHeight, false);
   document.removeEventListener("touchmove", setColumnWidths, false);
+  document.removeEventListener("touchmove", setMarkdownHeight, false);
 };
 
 preview.querySelector(".subheader")?.addEventListener(
@@ -178,13 +213,20 @@ markdown.addEventListener(
   (e: Event) => {
     const numAreas =
       getComputedStyle(main).gridTemplateAreas.split('" ').length;
+    const mouseEvent = e as MouseEvent;
+    const markdownRect = markdown.getBoundingClientRect();
     if (
       numAreas === 2 &&
-      (e as MouseEvent).clientX >=
-        markdown.getBoundingClientRect().right - HANDLE_SIZE
+      mouseEvent.clientX >= markdownRect.right - HANDLE_SIZE
     ) {
       startDragging();
       document.addEventListener("mousemove", setColumnWidths, false);
+    } else if (
+      numAreas === 3 &&
+      mouseEvent.clientY >= markdownRect.bottom - HANDLE_SIZE
+    ) {
+      startDragging();
+      document.addEventListener("mousemove", setMarkdownHeight, false);
     }
   },
   false,
@@ -195,13 +237,19 @@ markdown.addEventListener(
   (e: Event) => {
     const numAreas =
       getComputedStyle(main).gridTemplateAreas.split('" ').length;
-    if (numAreas !== 2) return;
     const touch = (e as TouchEvent).touches[0];
     const markdownRect = markdown.getBoundingClientRect();
-    if (touch.clientX >= markdownRect.right - HANDLE_SIZE) {
+    if (numAreas === 2 && touch.clientX >= markdownRect.right - HANDLE_SIZE) {
       columnTouchDiff = touch.clientX - markdownRect.right;
       startDragging();
       document.addEventListener("touchmove", setColumnWidths, false);
+    } else if (
+      numAreas === 3 &&
+      touch.clientY >= markdownRect.bottom - HANDLE_SIZE
+    ) {
+      rowTouchDiff = touch.clientY - markdownRect.bottom;
+      startDragging();
+      document.addEventListener("touchmove", setMarkdownHeight, false);
     }
   },
   false,
@@ -217,6 +265,8 @@ window.addEventListener(
     if (numAreas !== 2) {
       main.style.gridTemplateColumns = "";
       columnX = undefined;
+    } else {
+      rowY = undefined;
     }
   },
   false,
