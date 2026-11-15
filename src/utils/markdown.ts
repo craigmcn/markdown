@@ -63,13 +63,14 @@ const promoteHeaderRow = (html: string): string =>
       `<table><thead>${row.replace(/<(\/?)td\b/g, "<$1th")}</thead><tbody>`,
   );
 
-// Quill 2.0.3's getSemanticHTML() emits every space as &nbsp; and code blocks
-// as <pre> without <code>, which turndown won't fence; undo both first.
+// Quill 2.0.3's getSemanticHTML() emits spaces as &nbsp;, code blocks without
+// <code> (turndown won't fence them), and its own link targets and ql-* classes.
 export const richTextToHtml = (semanticHtml: string): string =>
   cleanHtml(
     promoteHeaderRow(
       semanticHtml
         .replace(/&nbsp;/g, " ")
+        .replace(/ (?:target="_blank"|rel="[^"]*"|class="ql-[^"]*")/g, "")
         .replace(
           /<pre[^>]*>\n?([\s\S]*?)\n?<\/pre>/g,
           "<pre><code>$1</code></pre>",

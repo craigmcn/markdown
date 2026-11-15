@@ -6,6 +6,7 @@ interface AceEditor {
   clearSelection(): void;
   resize(): void;
   session: {
+    on(event: "change", handler: () => void): void;
     selection: {
       on(event: string, handler: (e: unknown) => void): void;
     };

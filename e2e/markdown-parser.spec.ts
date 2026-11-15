@@ -73,3 +73,22 @@ test("converts typed rich text into Markdown and HTML", async ({ page }) => {
     "Hello rich world",
   );
 });
+
+test("undo in rich text doesn't revert changes made in Markdown", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await page.locator("#markdown-editor").click();
+  await page.keyboard.type("Typed in Markdown");
+  await expect(page.locator("#rich-text-editor p")).toHaveText(
+    "Typed in Markdown",
+  );
+
+  await page.locator("#rich-text-editor .ql-editor").click();
+  await page.keyboard.press("ControlOrMeta+z");
+
+  await expect(page.locator("#markdown-editor .ace_content")).toContainText(
+    "Typed in Markdown",
+  );
+});

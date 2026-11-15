@@ -90,7 +90,8 @@ for (const [selector, title] of Object.entries(toolbarTitles)) {
     ?.setAttribute("title", title);
 }
 
-// "silent" keeps this from firing text-change and echoing back to the others.
+// "silent" skips text-change (no echo to the other panels) and Quill's history,
+// so undo in Rich Text can't revert changes made in Markdown or HTML.
 const setRichText = (html: string) => {
   richTextEditor.setContents(
     richTextEditor.clipboard.convert({ html: htmlToRichText(html) }),
@@ -107,10 +108,7 @@ richTextEditor.on("text-change", (_delta, _oldDelta, source) => {
   markdownEditor.clearSelection();
 });
 
-markdownEditor.session.selection.on("changeSelection", () => {
-  markdownEditorChange();
-});
-markdownEditor.session.selection.on("changeCursor", () => {
+markdownEditor.session.on("change", () => {
   markdownEditorChange();
 });
 
@@ -124,10 +122,7 @@ const markdownEditorChange = () => {
   }
 };
 
-htmlEditor.session.selection.on("changeSelection", () => {
-  htmlEditorChange();
-});
-htmlEditor.session.selection.on("changeCursor", () => {
+htmlEditor.session.on("change", () => {
   htmlEditorChange();
 });
 

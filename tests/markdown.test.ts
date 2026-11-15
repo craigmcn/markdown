@@ -174,6 +174,14 @@ describe("richTextToHtml", () => {
     ).toBe("<table><thead><tr><th>a</th></tr></thead></table>");
   });
 
+  it("drops Quill's link target/rel and ql-* classes", () => {
+    expect(
+      richTextToHtml(
+        '<p class="ql-indent-1"><a href="https://x.com" target="_blank" rel="noopener noreferrer">x</a></p>',
+      ),
+    ).toBe('<p><a href="https://x.com">x</a></p>');
+  });
+
   it("sanitizes pasted markup", () => {
     expect(richTextToHtml('<p onclick="alert()">hi</p>')).toBe("<p>hi</p>");
   });

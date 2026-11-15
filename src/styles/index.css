@@ -123,8 +123,7 @@ body {
 #rich-text-editor .ql-editor ul,
 #rich-text-editor .ql-editor p,
 #rich-text-editor .ql-editor pre,
-#rich-text-editor .ql-editor table,
-#rich-text-editor .ql-editor ul {
+#rich-text-editor .ql-editor table {
   margin-bottom: 0.75em;
 }
 

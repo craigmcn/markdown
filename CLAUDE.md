@@ -39,7 +39,7 @@ A vanilla TypeScript app (Vite 8) with a single page:
 
 **Ace editor:** loaded from `https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js` as a `<script>` tag in `index.html`. It is not bundled by Vite. The `AceStatic` / `AceEditor` interfaces in `src/types/globals.d.ts` declare the global `ace` variable for TypeScript.
 
-**Rich Text sync:** Quill fires `text-change` with `source === "user"` only for real edits; programmatic updates go through `setRichText` with `"silent"` so they never echo back. The Ace panels still use the `document.activeElement` guard to avoid loops.
+**Rich Text sync:** Quill fires `text-change` with `source === "user"` only for real edits; programmatic updates go through `setRichText` with `"silent"` so they never echo back. Silent changes also bypass Quill's history (it only records emitted `editor-change` events), so undo in Rich Text can't revert edits made in the other panels. The Ace panels listen to `session.on("change")` (not selection events, which fired twice per keystroke and on every cursor move) behind the `document.activeElement` guard to avoid loops. Editing in Rich Text rewrites the Markdown/HTML from Quill's limited model, so anything it can't represent (`<hr>`, `<br>`, fence info strings, list `start`, h4–h6) is lost on the first rich-text edit — an accepted trade-off, like the existing HTML→Markdown direction.
 
 **Netlify build:** `build:netlify` runs two sequential Vite builds — one to `netlify/` (serves at the domain root) and one to `netlify/markdown/` (serves at the `/markdown/` sub-path). Both use `base: './'` for relative asset paths so they work at either location.
 
