@@ -3,6 +3,8 @@ import {
   cleanHtml,
   markdownToHtml,
   htmlToMarkdown,
+  htmlToRichText,
+  richTextToHtml,
 } from "../src/utils/markdown";
 
 describe("cleanHtml", () => {
@@ -104,6 +106,10 @@ describe("htmlToMarkdown", () => {
     expect(htmlToMarkdown("<h3>Hello</h3>")).toBe("### Hello");
   });
 
+  it("converts h1 to an ATX heading", () => {
+    expect(htmlToMarkdown("<h1>Hello</h1>")).toBe("# Hello");
+  });
+
   it("converts bold", () => {
     expect(htmlToMarkdown("<strong>bold</strong>")).toBe("**bold**");
   });
@@ -112,9 +118,107 @@ describe("htmlToMarkdown", () => {
     expect(htmlToMarkdown("<em>italic</em>")).toBe("_italic_");
   });
 
+  it("converts bullet lists with - markers", () => {
+    expect(htmlToMarkdown("<ul><li>one</li></ul>")).toBe("-   one");
+  });
+
+  it("converts strikethrough to ~~ (GFM)", () => {
+    expect(htmlToMarkdown("<p><s>gone</s> and <del>gone</del></p>")).toBe(
+      "~~gone~~ and ~~gone~~",
+    );
+  });
+
+  it("converts a table with a header row to a GFM table", () => {
+    expect(
+      htmlToMarkdown(
+        "<table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr></tbody></table>",
+      ),
+    ).toBe("| a   | b   |\n| --- | --- |\n| 1   | 2   |");
+  });
+
   it("converts a link", () => {
     expect(htmlToMarkdown('<a href="https://example.com">link</a>')).toBe(
       "[link](https://example.com)",
     );
+  });
+});
+
+describe("richTextToHtml", () => {
+  it("turns Quill's &nbsp; spaces back into plain spaces", () => {
+    expect(richTextToHtml("<p>Hello&nbsp;big&nbsp;world</p>")).toBe(
+      "<p>Hello big world</p>",
+    );
+  });
+
+  it("wraps bare <pre> code blocks in <code> so turndown fences them", () => {
+    const html = richTextToHtml("<pre>\nconst&nbsp;a&nbsp;=&nbsp;1;\n</pre>");
+    expect(html).toBe("<pre><code>const a = 1;</code></pre>");
+    expect(htmlToMarkdown(html)).toBe("```\nconst a = 1;\n```");
+  });
+
+  it("restores Quill tables' first row as a header, dropping its border style", () => {
+    expect(
+      richTextToHtml(
+        '<table style="border: 1px solid #000;"><tbody><tr><td data-row="1">a</td><td data-row="1">b</td></tr><tr><td data-row="2">1</td><td data-row="2">2</td></tr></tbody></table>',
+      ),
+    ).toBe(
+      "<table><thead><tr><th>a</th><th>b</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr></tbody></table>",
+    );
+  });
+
+  it("drops the empty tbody left by a single-row table", () => {
+    expect(
+      richTextToHtml(
+        '<table style="border: 1px solid #000;"><tbody><tr><td>a</td></tr></tbody></table>',
+      ),
+    ).toBe("<table><thead><tr><th>a</th></tr></thead></table>");
+  });
+
+  it("drops Quill's link target/rel and ql-* classes", () => {
+    expect(
+      richTextToHtml(
+        '<p class="ql-indent-1"><a href="https://x.com" target="_blank" rel="noopener noreferrer">x</a></p>',
+      ),
+    ).toBe('<p><a href="https://x.com">x</a></p>');
+  });
+
+  it("sanitizes pasted markup", () => {
+    expect(richTextToHtml('<p onclick="alert()">hi</p>')).toBe("<p>hi</p>");
+  });
+});
+
+describe("htmlToRichText", () => {
+  it("turns header cells into plain cells for Quill's table module", () => {
+    expect(
+      htmlToRichText(
+        '<table><thead><tr><th align="left">a</th></tr></thead><tbody><tr><td>1</td></tr></tbody></table>',
+      ),
+    ).toBe(
+      '<table><thead><tr><td align="left">a</td></tr></thead><tbody><tr><td>1</td></tr></tbody></table>',
+    );
+  });
+
+  it("leaves <thead> alone", () => {
+    expect(htmlToRichText("<thead>")).toBe("<thead>");
+  });
+
+  it("strips whitespace between table tags so the table stays whole", () => {
+    expect(
+      htmlToRichText(
+        "<table>\n<thead>\n<tr>\n<th>a</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>1</td>\n</tr>\n</tbody></table>",
+      ),
+    ).toBe(
+      "<table><thead><tr><td>a</td></tr></thead><tbody><tr><td>1</td></tr></tbody></table>",
+    );
+  });
+
+  it("keeps whitespace between inline elements", () => {
+    expect(htmlToRichText("<p><b>a</b> <i>b</i></p>")).toBe(
+      "<p><b>a</b> <i>b</i></p>",
+    );
+  });
+
+  it("turns <del> into Quill's <s>", () => {
+    expect(htmlToRichText("<p><del>gone</del></p>")).toBe("<p><s>gone</s></p>");
   });
 });

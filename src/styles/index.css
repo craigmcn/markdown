@@ -19,14 +19,14 @@ body {
   grid-template-areas:
     "markdown"
     "html"
-    "preview";
+    "rich-text";
   grid-template-rows: 1fr 1fr 1fr;
   height: calc(100vh - 80px);
 }
 
 #markdown,
 #html,
-#preview {
+#rich-text {
   display: flex;
   flex-direction: column;
 }
@@ -69,14 +69,14 @@ body {
   height: 100%;
 }
 
-#preview {
-  grid-area: preview;
+#rich-text {
+  grid-area: rich-text;
   max-height: 60vh;
   min-height: 20vh;
   position: relative;
 }
 
-#preview > .subheader::before {
+#rich-text > .subheader::before {
   background-color: var(--handle-bg);
   top: 0;
   content: "";
@@ -89,70 +89,78 @@ body {
   z-index: 10;
 }
 
-#preview > .subheader:hover::before {
+#rich-text > .subheader:hover::before {
   background-color: var(--handle-bg-hover);
 }
 
-#preview-content {
-  height: calc(100% - 61px);
-  overflow-y: auto;
-  padding: 0 1rem;
+/* Quill inserts its toolbar as a sibling before the container; the container
+   flexes to fill the rest so the editor is full height and scrolls inside. */
+#rich-text .ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid var(--grey100);
 }
 
-#preview-content h1,
-#preview-content h2,
-#preview-content h3,
-#preview-content h4,
-#preview-content h5,
-#preview-content h6,
-#preview-content hr,
-#preview-content ol,
-#preview-content p,
-#preview-content pre,
-#preview-content table,
-#preview-content ul {
+#rich-text-editor.ql-container.ql-snow {
+  border: none;
+  flex: 1;
+  font-family: inherit;
+  font-size: 1rem;
+  min-height: 0;
+}
+
+#rich-text-editor .ql-editor {
+  padding: 0.75rem 1rem;
+}
+
+#rich-text-editor .ql-editor h1,
+#rich-text-editor .ql-editor h2,
+#rich-text-editor .ql-editor h3,
+#rich-text-editor .ql-editor h4,
+#rich-text-editor .ql-editor h5,
+#rich-text-editor .ql-editor h6,
+#rich-text-editor .ql-editor hr,
+#rich-text-editor .ql-editor ol,
+#rich-text-editor .ql-editor ul,
+#rich-text-editor .ql-editor p,
+#rich-text-editor .ql-editor pre,
+#rich-text-editor .ql-editor table {
   margin-bottom: 0.75em;
 }
 
-#preview-content h1 {
+#rich-text-editor .ql-editor h1 {
   font-size: 1.75em;
 }
 
-#preview-content h2 {
+#rich-text-editor .ql-editor h2 {
   border: none;
   padding: 0;
 }
 
-#preview-content table {
+#rich-text-editor .ql-editor table {
   border-spacing: 0;
   width: 100%;
 }
 
-#preview-content table,
-#preview-content table th {
+#rich-text-editor .ql-editor table,
+#rich-text-editor .ql-editor table th {
   border-bottom: 1px solid var(--grey200);
 }
 
-#preview-content table td,
-#preview-content table th {
+#rich-text-editor .ql-editor table td,
+#rich-text-editor .ql-editor table th {
   padding: 0.5em 4px;
 }
 
-#preview-content table tbody tr:nth-child(2n) {
+#rich-text-editor .ql-editor table tbody tr:nth-child(2n) {
   background-color: var(--silver);
 }
 
-#preview-content ol,
-#preview-content ul {
-  margin-left: 1em;
-}
-
-#preview-content blockquote {
+#rich-text-editor .ql-editor blockquote {
   border-left: 1px solid var(--black);
   padding-left: 0.5rem;
 }
 
-#preview-content code {
+#rich-text-editor .ql-editor code {
   color: var(--pink);
   display: inline-block;
   font-family: monospace;
@@ -161,13 +169,13 @@ body {
   word-break: break-word;
 }
 
-#preview-content pre {
+#rich-text-editor .ql-editor pre {
   background-color: var(--silver);
   padding: 0.5rem;
   width: 100%;
 }
 
-#preview-content pre code {
+#rich-text-editor .ql-editor pre code {
   color: var(--black);
   font-size: 0.875rem;
 }
@@ -180,7 +188,7 @@ body {
   .app-grid {
     grid-template-areas:
       "markdown html"
-      "preview preview";
+      "rich-text rich-text";
     grid-template-rows: 2fr 1fr;
     grid-template-columns: 1fr 1fr;
     height: calc(100vh - 57px);
@@ -192,7 +200,7 @@ body {
     display: flex;
   }
 
-  #preview {
+  #rich-text {
     max-height: 80vh;
   }
 

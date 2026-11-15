@@ -1,0 +1,14 @@
+[build]
+  command = "yarn build:netlify"
+  publish = "netlify"
+
+# Inline redirect script allowed by hash (tests/securityHeaders.test.ts checks
+# it). Ace needs cdnjs, blob: workers and 'unsafe-inline' styles; albertcss
+# @imports Google Fonts. See CLAUDE.md "CSP" for the details.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-FGALV05D4g7G4BENEzItcsKln/YAzSyPZhwTWZS+i2g=' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://albertcss.craigmcn.com https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; worker-src blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"

@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 yarn dev          # Start dev server at http://localhost:3040
 yarn build        # Build to dist/
 yarn build:netlify  # Build to netlify/ (root) and netlify/markdown/ (sub-path)
-yarn preview      # Preview the production build locally
+yarn preview      # Preview the production build at :3041 with netlify.toml's headers
 yarn format       # Prettier on all files
 yarn format:check  # Prettier check (read-only — fails if any file needs reformatting)
 yarn lint         # ESLint check on src/ (no auto-fix — fails on any error)
@@ -19,22 +19,27 @@ yarn lint:fix     # ESLint with auto-fix on src/
 yarn test         # Vitest in watch mode
 yarn test:run     # Vitest single run
 yarn coverage     # Vitest with v8 coverage report
+yarn test:e2e     # Playwright: chromium project (dev :3040) + csp project (preview :3041)
 ```
 
 ## Architecture
 
 A vanilla TypeScript app (Vite 8) with a single page:
 
-- **`index.html`** — Markdown Parser: a three-panel editor (Markdown input → HTML output → rendered preview) using the [Ace editor](https://ace.c9.io/) loaded from CDN, [marked](https://marked.js.org/) for Markdown→HTML conversion, [turndown](https://github.com/mixmark-io/turndown) for HTML→Markdown conversion, and [sanitize-html](https://github.com/apostrophecms/sanitize-html) for sanitization.
+- **`index.html`** — Markdown Parser: three panels kept in sync (Markdown ⇄ HTML ⇄ Rich Text), editing any one updates the other two. Markdown and HTML use the [Ace editor](https://ace.c9.io/) loaded from CDN; Rich Text is a bundled [Quill 2](https://quilljs.com/) editor. [marked](https://marked.js.org/) does Markdown→HTML, [turndown](https://github.com/mixmark-io/turndown) + `@joplin/turndown-plugin-gfm` does HTML→Markdown, and [sanitize-html](https://github.com/apostrophecms/sanitize-html) sanitizes.
 
 **Key source locations:**
 
-- `src/utils/markdown.ts` — `cleanHtml` (sanitize-and-normalize), `markdownToHtml` (marked + cleanHtml), `htmlToMarkdown` (turndown); the primary unit-tested logic.
-- `src/scripts/index.ts` — Ace editor wiring and resize-handle logic for the Markdown Parser page.
-- `src/styles/index.css` — All styles for the Markdown Parser page (grid layout, Ace editor sizing, preview content).
-- `src/types/globals.d.ts` — Minimal `ace` global declaration (Ace is loaded from CDN, not bundled).
+- `src/utils/markdown.ts` — `cleanHtml` (sanitize-and-normalize), `markdownToHtml` (marked + cleanHtml), `htmlToMarkdown` (turndown + GFM), and the Quill adapters `htmlToRichText` (HTML → what Quill's clipboard accepts) / `richTextToHtml` (Quill's `getSemanticHTML()` → clean HTML); the primary unit-tested logic.
+- `src/scripts/index.ts` — Ace + Quill wiring, cross-panel sync, and resize-handle logic.
+- `src/styles/index.css` — All styles (grid layout, Ace sizing, Quill toolbar/editor fill and content styles).
+- `src/types/globals.d.ts` — `vite/client` types, minimal `ace` global declaration (Ace is loaded from CDN, not bundled), and a module declaration for the untyped GFM plugin.
+- `netlify.toml` — build command and security headers (CSP etc.); `vite.config.ts` reads the same headers into `preview.headers`.
+- `tests/securityHeaders.test.ts` — fails if `index.html`'s inline script and the CSP's `sha256-` hash drift apart.
 
 **Ace editor:** loaded from `https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js` as a `<script>` tag in `index.html`. It is not bundled by Vite. The `AceStatic` / `AceEditor` interfaces in `src/types/globals.d.ts` declare the global `ace` variable for TypeScript.
+
+**Rich Text sync:** Quill fires `text-change` with `source === "user"` only for real edits; programmatic updates go through `setRichText` with `"silent"` so they never echo back. Silent changes also bypass Quill's history (it only records emitted `editor-change` events), so undo in Rich Text can't revert edits made in the other panels. The Ace panels listen to `session.on("change")` (not selection events, which fired twice per keystroke and on every cursor move) behind the `document.activeElement` guard to avoid loops. Editing in Rich Text rewrites the Markdown/HTML from Quill's limited model, so anything it can't represent (`<hr>`, `<br>`, fence info strings, list `start`, h4–h6) is lost on the first rich-text edit — an accepted trade-off, like the existing HTML→Markdown direction.
 
 **Netlify build:** `build:netlify` runs two sequential Vite builds — one to `netlify/` (serves at the domain root) and one to `netlify/markdown/` (serves at the `/markdown/` sub-path). Both use `base: './'` for relative asset paths so they work at either location.
 
@@ -45,6 +50,12 @@ Formatting is handled by Prettier (`.prettierrc` is `{}` — all defaults). Run 
 ESLint (`eslint.config.mjs`, ESLint 9 flat config) handles code quality only. Run `yarn lint` (read-only, fails on any error) or `yarn lint:fix`.
 
 ## Key decisions
+
+- **Quill 2 for Rich Text** — free (BSD), widely used, and gives a working toolbar with no extra UI code (TipTap is headless; TinyMCE/CKEditor are GPL or need API keys). Its `formats` list is restricted to what survives conversion to Markdown (`cleanHtml` strips `<img>`), so pasted colors/fonts/images drop up front.
+- **Quill 2.0.3 quirks handled in `src/utils/`** — `getSemanticHTML()` emits every space as `&nbsp;`, code blocks as `<pre data-language>` with no `<code>` (turndown won't fence them), and tables with an inline border and no header cells. `richTextToHtml` undoes all three and promotes each table's first row to `<thead>` (GFM tables need a header). Going in, `htmlToRichText` turns `<th>`→`<td>` and `<del>`→`<s>` and strips whitespace between table tags, since Quill's clipboard otherwise merges header cells, drops strikethrough, and splits tables in two.
+- **turndown options** — `headingStyle: "atx"`, `codeBlockStyle: "fenced"`, `bulletListMarker: "-"`, plus the GFM plugin (tables, `~~strikethrough~~`); turndown's defaults (setext, indented, `*`, no tables/strike) read badly for pasted rich text.
+- **CSP** — Ace needs `https://cdnjs.cloudflare.com` in `script-src` (it loads modes from there), `worker-src blob:` (HTML linter worker; verified a violation without it), and `'unsafe-inline'` in `style-src` (injected `<style>` tags). Only `vite preview` sends the headers: Vite's dev HMR client injects inline scripts the CSP would block. The `csp` Playwright project (`e2e/*.csp.spec.ts`) exercises all three editors under the production CSP.
+- **`"type": "module"`** — avoids Vite 8's `configLoader: 'native'` warning; `vitest.config.ts` imports `./vite.config.ts` with its extension for the same reason (`allowImportingTsExtensions` in `tsconfig.node.json`).
 
 - **`ace` from CDN** — Ace is not bundled; `src/types/globals.d.ts` declares a minimal global interface covering the methods actually used (`edit`, `getValue`, `setValue`, `clearSelection`, `resize`, `session.selection.on`).
 - **`src/utils/` extracted for testability** — `cleanHtml`, `markdownToHtml`, and `htmlToMarkdown` live in `src/utils/` rather than inline in the script files so they can be unit-tested without a DOM or Ace dependency. `marked` and `TurndownService` are initialized as module-level singletons in `markdown.ts` so the singleton is shared and testable.
