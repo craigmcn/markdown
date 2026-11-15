@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 interface AceEditor {
   getValue(): string;
   setValue(value: string): void;
@@ -15,3 +17,8 @@ interface AceStatic {
 }
 
 declare const ace: AceStatic;
+
+declare module "@joplin/turndown-plugin-gfm" {
+  import type TurndownService from "turndown";
+  export const gfm: TurndownService.Plugin;
+}

@@ -10,24 +10,24 @@ test("mobile view stacks all three sections edge-to-edge at full width and heigh
   const main = page.locator("main.app-grid");
   const markdown = page.locator("#markdown");
   const html = page.locator("#html");
-  const preview = page.locator("#preview");
+  const richText = page.locator("#rich-text");
 
   await expect(markdown).toBeVisible();
   await expect(html).toBeVisible();
-  await expect(preview).toBeVisible();
+  await expect(richText).toBeVisible();
 
   const mainBox = await main.boundingBox();
   const markdownBox = await markdown.boundingBox();
   const htmlBox = await html.boundingBox();
-  const previewBox = await preview.boundingBox();
-  if (!mainBox || !markdownBox || !htmlBox || !previewBox) {
+  const richTextBox = await richText.boundingBox();
+  if (!mainBox || !markdownBox || !htmlBox || !richTextBox) {
     throw new Error("expected bounding boxes for main and all three sections");
   }
 
   // Full width: each section spans the same width as its container --
   // regression test for the AlbertCSS `.grid` utility class collision,
   // which left these squeezed into a 12-column fraction of the viewport.
-  for (const box of [markdownBox, htmlBox, previewBox]) {
+  for (const box of [markdownBox, htmlBox, richTextBox]) {
     expect(box.width).toBeCloseTo(mainBox.width, -1);
   }
   const viewportWidth = page.viewportSize()?.width;
@@ -39,8 +39,8 @@ test("mobile view stacks all three sections edge-to-edge at full width and heigh
   // from top to bottom.
   expect(markdownBox.y).toBeCloseTo(mainBox.y, -1);
   expect(htmlBox.y).toBeCloseTo(markdownBox.y + markdownBox.height, -1);
-  expect(previewBox.y).toBeCloseTo(htmlBox.y + htmlBox.height, -1);
-  expect(previewBox.y + previewBox.height).toBeCloseTo(
+  expect(richTextBox.y).toBeCloseTo(htmlBox.y + htmlBox.height, -1);
+  expect(richTextBox.y + richTextBox.height).toBeCloseTo(
     mainBox.y + mainBox.height,
     -1,
   );
